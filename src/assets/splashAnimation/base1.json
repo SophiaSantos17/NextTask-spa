@@ -1,0 +1,158 @@
+[{
+  "version": "1.0",
+  "image": {
+    "name": "../tmp/179999250999999920819679/NA==.png",
+    "permissions": 644,
+    "format": "PNG",
+    "formatDescription": "Portable Network Graphics",
+    "mimeType": "image/png",
+    "class": "DirectClass",
+    "geometry": {
+      "width": 1080,
+      "height": 1080,
+      "x": 0,
+      "y": 0
+    },
+    "resolution": {
+      "x": 37.8,
+      "y": 37.8
+    },
+    "printSize": {
+      "x": 28.5714,
+      "y": 28.5714
+    },
+    "units": "PixelsPerCentimeter",
+    "type": "TrueColorAlpha",
+    "endianness": "Undefined",
+    "colorspace": "sRGB",
+    "depth": 8,
+    "baseDepth": 8,
+    "channelDepth": {
+      "alpha": 8,
+      "red": 4,
+      "green": 8,
+      "blue": 8
+    },
+    "pixels": 1166400,
+    "imageStatistics": {
+      "all": {
+        "min": 0,
+        "max": 255,
+        "mean": 53.9874,
+        "standardDeviation": 78.9463,
+        "kurtosis": 0.0684628,
+        "skewness": 1.3735,
+        "entropy": 0.713862
+      }
+    },
+    "channelStatistics": {
+      "alpha": {
+        "min": 255,
+        "max": 0,
+        "mean": 173.984,
+        "standardDeviation": 118.631,
+        "kurtosis": -1.38547,
+        "skewness": 0.783047,
+        "entropy": 0.145607
+      },
+      "red": {
+        "min": 0,
+        "max": 17,
+        "mean": 5.42285,
+        "standardDeviation": 7.92346,
+        "kurtosis": -1.39671,
+        "skewness": 0.776719,
+        "entropy": 0.903281
+      },
+      "green": {
+        "min": 0,
+        "max": 158,
+        "mean": 50.4006,
+        "standardDeviation": 73.6415,
+        "kurtosis": -1.39671,
+        "skewness": 0.776719,
+        "entropy": 0.903281
+      },
+      "blue": {
+        "min": 0,
+        "max": 248,
+        "mean": 79.1097,
+        "standardDeviation": 115.589,
+        "kurtosis": -1.39671,
+        "skewness": 0.776719,
+        "entropy": 0.903281
+      }
+    },
+    "alpha": "#00000000",
+    "renderingIntent": "Perceptual",
+    "gamma": 0.454545,
+    "chromaticity": {
+      "redPrimary": {
+        "x": 0.64,
+        "y": 0.33
+      },
+      "greenPrimary": {
+        "x": 0.3,
+        "y": 0.6
+      },
+      "bluePrimary": {
+        "x": 0.15,
+        "y": 0.06
+      },
+      "whitePrimary": {
+        "x": 0.3127,
+        "y": 0.329
+      }
+    },
+    "backgroundColor": "#FFFFFFFF",
+    "borderColor": "#DFDFDFFF",
+    "matteColor": "#BDBDBDFF",
+    "transparentColor": "#00000000",
+    "interlace": "None",
+    "intensity": "Undefined",
+    "compose": "Over",
+    "pageGeometry": {
+      "width": 1080,
+      "height": 1080,
+      "x": 0,
+      "y": 0
+    },
+    "dispose": "Undefined",
+    "iterations": 0,
+    "compression": "Zip",
+    "orientation": "Undefined",
+    "properties": {
+      "Comment": "xr:d:DAF8IXWp-IQ:4,j:8270152902033529309,t:24020823",
+      "date:create": "2024-02-08T23:55:39+00:00",
+      "date:modify": "2024-02-08T23:55:39+00:00",
+      "date:timestamp": "2024-02-08T23:55:39+00:00",
+      "pdf:Author": "Marcos Xavier ",
+      "png:IHDR.bit-depth-orig": "8",
+      "png:IHDR.bit_depth": "8",
+      "png:IHDR.color-type-orig": "6",
+      "png:IHDR.color_type": "6 (RGBA)",
+      "png:IHDR.interlace_method": "0 (Not interlaced)",
+      "png:IHDR.width,height": "1080, 1080",
+      "png:pHYs": "x_res=3780, y_res=3780, units=1",
+      "png:text": "1 tEXt/zTXt/iTXt chunks were found",
+      "signature": "2840346d0124b3a5069001efce9c79639f104427dc0fc6e0fdb0f8f4391e0cdd",
+      "xmp:CreatorTool": "Canva"
+    },
+    "profiles": {
+      "xmp": {
+        "length": 1244
+      }
+    },
+    "artifacts": {
+      "filename": "../tmp/179999250999999920819679/NA==.png"
+    },
+    "tainted": false,
+    "filesize": "25494B",
+    "numberPixels": "1.1664M",
+    "pixelsPerSecond": "44.6338MB",
+    "userTime": "0.020u",
+    "elapsedTime": "0:01.026",
+    "version": "ImageMagick 6.9.12-93 Q16 x86_64 17898 https://legacy.imagemagick.org"
+  }
+}
+]

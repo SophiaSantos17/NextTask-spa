@@ -1,0 +1,8 @@
+banco de horas:
+08/02
+start - 15:40
+pausa - 17:21 a 17:35 -> 19:00 -> 20
+end - 
+
+total:
+6:11
