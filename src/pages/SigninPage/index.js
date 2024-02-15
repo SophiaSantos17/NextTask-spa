@@ -1,66 +1,95 @@
-import React from 'react';
-import { Image, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { Image, StyleSheet, View, Text, TouchableOpacity, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { useForm, Controller  } from 'react-hook-form';
-import InputBlue from '../../components/inputBlue';
-import Button from '../../components/button';
 import { useNavigation } from '@react-navigation/native';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {signinSchema} from "../../schemas/signinSchema.js"
+import ErrorInput from '../../components/errorInput';
+import Button from '../../components/button';
+import InputBlue from '../../components/inputBlue';
+
 
 export default function Signin() {
   const navigate = useNavigation();
-  const { control, handleSubmit, formState: {errors} } = useForm({});
+  const [showBanner, setShowBanner] = useState(true);
+  const { control, handleSubmit, formState: {errors} } = useForm({resolver: zodResolver(signinSchema)});
 
   function onSubmit(data){
+    navigate.navigate("Home"); // redireciona para a tela Home após o cadastro
     console.log(data);
   }
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => setShowBanner(false)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => setShowBanner(true)
+    );
+
+    // Remove os listeners quando o componente é desmontado
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.boxLogo}>
-        <Image source={require('../../assets/logo.png')} style={styles.logo} />
-      </View>
-
-      <View style={styles.boxBanner}>
-        <Image source={require('../../assets/banner.png')} style={styles.banner} />
-      </View>
-
-      <View style={styles.boxInfos}>
-        <Controller 
-          control={control}
-          name='email'
-          render={({ field: { onChange, value } }) => (
-            <InputBlue
-              placeholder="Email"
-              onChangeText={(text) => onChange(text)}
-            />
-        )}/>
-
-        <Controller 
-          control={control}
-          name='senha'
-          render={({ field: { onChange, value } }) => (
-            <InputBlue
-              placeholder="Senha"
-              onChangeText={(text) => onChange(text)}
-            />
-        )}/>
-
-
-      
-      <Button title="Entrar" onPress={handleSubmit(onSubmit)} />
-
-        <View style={styles.boxDivision}>
-          <View style={styles.line}/>
-          <Text style={styles.textDivision}>ou</Text>
-          <View style={styles.line}/>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
+        <View style={styles.boxLogo}>
+          <Image source={require('../../assets/logo.png')} style={styles.logo} />
         </View>
-        <View style={styles.boxLink}>
-          <Text style={styles.text}>É novo por aqui? </Text>
-          <TouchableOpacity onPress={() => navigate.navigate("Signup")}>
-            <Text style={styles.textLink}>Faça cadastro</Text>
-          </TouchableOpacity>
+
+        {showBanner && (
+          <View style={styles.boxBanner}>
+            <Image source={require('../../assets/banner.png')} style={styles.banner} />
+          </View>
+        )}
+
+        <View style={styles.boxInfos}>
+          <Controller 
+            control={control}
+            name='email'
+            render={({ field: { onChange, value } }) => (
+              <InputBlue
+                placeholder="Email"
+                onChangeText={(text) => onChange(text)}
+              />
+          )}/>
+          {errors.email && <ErrorInput text={errors.email.message} />}
+
+          <Controller 
+            control={control}
+            name='password'
+            render={({ field: { onChange, value } }) => (
+              <InputBlue
+                placeholder="Senha"
+                onChangeText={(text) => onChange(text)}
+              />
+          )}/>
+          {errors.password  && <ErrorInput text={errors.password.message} />}
+
+        
+        <Button title="Entrar" onPress={handleSubmit(onSubmit)} />
+
+          <View style={styles.boxDivision}>
+            <View style={styles.line}/>
+            <Text style={styles.textDivision}>ou</Text>
+            <View style={styles.line}/>
+          </View>
+          <View style={styles.boxLink}>
+            <Text style={styles.text}>É novo por aqui? </Text>
+            <TouchableOpacity onPress={() => navigate.navigate("Signup")}>
+              <Text style={styles.textLink}>Faça cadastro</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -72,6 +101,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between', 
     alignItems: 'center',
+    margin: 0,
+    padding: 0,
   },
   title:{
     fontSize:28
@@ -94,18 +125,18 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
-    height: "40%",
-    marginBottom: 0,
+    width: "65%",
+    height: "30%",
+    // marginBottom: 0,
   },
   banner: {
     marginTop: 20,
-    width: 230,
-    height: 230,
+    width: "100%",
+    height: "100%",
   },
   boxInfos: {
     width: "100%",
-    height: "50%",
+    height: "auto",
     backgroundColor: "white",
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
@@ -113,6 +144,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 20,
   },
   boxDivision: {
     width: "100%",

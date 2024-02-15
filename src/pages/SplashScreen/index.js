@@ -12,15 +12,16 @@ const Splash = () => {
             autoPlay
             loop={false}
             onAnimationFinish={() => navigate.navigate("Start")}
+            style={styles.splash}
         />
     );
 }
 
 const styles = StyleSheet.create({
     splash: {
-        backgroundColor: "white",
         width: '100%',
-        height: '100%'
+        height: '100%',
+        backgroundColor: "white",
     }
 })
 

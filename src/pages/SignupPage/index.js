@@ -1,36 +1,67 @@
-import React from 'react';
-// chamando os componentes ja pronto
+import React, {useState, useEffect} from 'react';
+
+// chamando os componentes criados
 import InputBlue from '../../components/inputBlue';
 import Button from '../../components/button';
+import ErrorInput from '../../components/errorInput';
 
 // importando as funções que serão usados
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller  } from 'react-hook-form';
-import { Image, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, View, Text, TouchableOpacity , KeyboardAvoidingView, Platform, Keyboard} from 'react-native';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signupSchema } from '../../schemas/signupSchema';
 
+
+//
 export default function Signup() {
+  const [showBanner, setShowBanner] = useState(true);
   const navigate = useNavigation(); // cria uma variavel que recebe a função useNavigate que é usada para navejar entre telas
-  const { control, handleSubmit, formState: {errors} } = useForm({}); // variaveis que vão inicializar o useForm para gerenciar o estado do formulário
+  const { control, handleSubmit, formState: {errors} } = useForm({resolver: zodResolver(signupSchema)}); 
+  // zodResolver é onde esta sendo chamado os tratamento de erro
+  // variaveis que vão inicializar o useForm para gerenciar o estado do formulário
 
   function onSubmit(data){ // função que será chamada ao clicar no botão de enviar os dados
+    navigate.navigate("Home"); // redireciona para a tela Home após o cadastro
     console.log(data);
   }
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => setShowBanner(false)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => setShowBanner(true)
+    );
+
+    // Remove os listeners quando o componente é desmontado
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
-    <View style={styles.container}>
-      
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
       <View style={styles.boxLogo}>
         <Image source={require('../../assets/logo.png')} style={styles.logo} />
       </View>
 
-      <View style={styles.boxBanner}>
-        <Image source={require('../../assets/banner.png')} style={styles.banner} />
-      </View>
+      {showBanner && (
+          <View style={styles.boxBanner}>
+            <Image source={require('../../assets/banner.png')} style={styles.banner} />
+          </View>
+        )}
 
       <View style={styles.boxInfos}>
         <Controller 
           control={control}
-          name='nome'
+          name='name'
           render={({ field: { onChange, value } }) => (
             <InputBlue
               style={styles.input}
@@ -38,6 +69,8 @@ export default function Signup() {
               onChangeText={(text) => onChange(text)}
             />
         )}/>
+        {errors.name && <ErrorInput text={errors.name.message}/>}
+
         <Controller 
           control={control}
           name='email'
@@ -48,10 +81,11 @@ export default function Signup() {
               onChangeText={(text) => onChange(text)}
             />
         )}/>
+        {errors.email && <ErrorInput text={errors.email.message}/>}
 
         <Controller 
           control={control}
-          name='senha'
+          name='password'
           render={({ field: { onChange, value } }) => (
             <InputBlue
               style={styles.input}
@@ -59,8 +93,7 @@ export default function Signup() {
               onChangeText={(text) => onChange(text)}
             />
         )}/>
-
-
+        {errors.password && <ErrorInput text={errors.password.message}/>}
       
       <Button title="Entrar" onPress={handleSubmit(onSubmit)} />
 
@@ -76,7 +109,7 @@ export default function Signup() {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -121,13 +154,14 @@ const styles = StyleSheet.create({
   },
   boxInfos: {
     width: "100%",
-    height: "57%",
+    height: "auto",
     backgroundColor: "white",
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    // justifyContent: 'spa',
+    paddingVertical: 20,
     alignItems: 'center',
   },
   boxDivision: {
@@ -135,7 +169,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: -5,
   },
   line: {
     width: "35%",
@@ -153,7 +188,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'center',
     alignItems:'center',
-    height: 30,
+    height: 20,
   },
   text: {
     fontSize: 20,

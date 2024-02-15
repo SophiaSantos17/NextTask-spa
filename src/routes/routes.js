@@ -10,6 +10,9 @@ import Signup from "../pages/SignupPage";
 import Start from "../pages/StartPage";
 import Home from "../pages/Home";
 import SplashScreen from "../pages/SplashScreen";
+import NovaTarefa from "../pages/NovaTarefa";
+import Listas from "../pages/Lists";
+import InfoTarefa from "../pages/InfoTarefa";
 
 // Configuração e gestão da navegação entre telas
 const Stack = createNativeStackNavigator();
@@ -27,13 +30,22 @@ export default function Routes() {
             <Stack.Screen name="Start" component={Start} options={{headerShown: false}} />
 
             {/* Carregar a tela Home */}
-            <Stack.Screen name="Home" component={Home} options={{headerTitle: "Home"}}/>
+            <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
 
             {/* Carregar a tela Signin */}
             <Stack.Screen name="Signin" component={Signin} options={{headerShown: false}}/>
 
             {/* Carregar a tela Signup */}
             <Stack.Screen name="Signup" component={Signup} options={{headerShown: false}}/>
+            
+            {/* Carregar a tela de Adicionar Nova Tareda */}
+            <Stack.Screen name="NovaTarefa" component={NovaTarefa} options={{headerShown: true}}/>
+
+            {/* Carregar a tela de Listas */}
+            <Stack.Screen name="Listas" component={Listas} options={{headerShown: true}}/>
+
+            {/* Carregar a tela de Informação da Tarefa */}
+            <Stack.Screen name="InfoTarefa" component={InfoTarefa} options={{headerShown: true}}/>
 
 
         </Stack.Navigator>
