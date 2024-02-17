@@ -3,7 +3,29 @@ import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 
 // Cria e exporta a função do componente InputBlue, que recebe as props placeholder e onChangeText
-export default function InputBlue({ placeholder, onChangeText }) {
+export default function InputBlue({ placeholder, onChangeText, type }) {
+  let keyboardType = 'default';
+  let secureTextEntry = false;
+  let multiline = false;
+
+  // Configurações com base no tipo
+  switch (type) {
+    case 'email':
+      keyboardType = 'email-address';
+      break;
+    case 'password':
+      secureTextEntry = true;
+      break;
+    case 'multiline':
+      multiline = true;
+      break;
+    
+    case 'text':
+    default:
+      keyboardType = 'default';
+      break;
+  }
+
   return (
     // Retorna o componente TextInput com as props fornecidas
     <TextInput
@@ -12,6 +34,9 @@ export default function InputBlue({ placeholder, onChangeText }) {
       // onChangeText é uma função que será chamada sempre que o texto dentro do componente for alterado pelo usuário
       onChangeText={onChangeText}
       style={styles.input}
+      keyboardType={keyboardType}
+      secureTextEntry={secureTextEntry}
+      multiline={multiline}
     />
   );
 }
