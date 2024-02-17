@@ -1,18 +1,37 @@
 import React from "react";
 
+import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 
-export default function CardRecent(){
+export default function CardRecent({priority}){
+    const navigate = useNavigation();
+
+    function activePriority(){
+        let backgroundColor;
+
+        if (priority === "Alta"){
+            backgroundColor = "#F20C0C";
+        }
+        else if (priority === "Media"){
+            backgroundColor = "#0CB7F2";
+        }
+        else if (priority === "Baixa"){
+            backgroundColor = "#14FF00";
+        }
+
+        return backgroundColor;
+    }
+
     return(
-        <TouchableOpacity style={styles.cardRecent}>
+        <TouchableOpacity style={styles.cardRecent} onPress={() => navigate.navigate("InfoTarefa")}>
             <View style={styles.boxTitleDate}>
                 <Text style={styles.titleTask}>Ir para academia</Text>
                 <Text style={styles.dateTask}>22/01/2023</Text>
 
             </View>
             <View style={styles.boxPriority}>
-                <View style={styles.priorityTask}></View>
+                <View style={[styles.priorityTask, {backgroundColor: activePriority()}]}></View>
             </View>
         </TouchableOpacity>
     );
@@ -60,4 +79,4 @@ const styles = StyleSheet.create({
         backgroundColor: "red",
     },
 
-})
+});

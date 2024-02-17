@@ -1,9 +1,11 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 
 export default function CardList({priority}){
+    const navigate = useNavigation();
 
     function activatePriority(){
         let backgroundColor;
@@ -22,7 +24,7 @@ export default function CardList({priority}){
     }
 
     return(
-        <TouchableOpacity style={styles.cardList}>
+        <TouchableOpacity style={styles.cardList} onPress={() => navigate.navigate("InfoTarefa")}> 
             <View style={[styles.boxPriority, {backgroundColor: activatePriority()}]}></View>
             <View style={styles.boxTitleDate}>
                 <Text style={styles.titleTask}>Ir para academia</Text>
