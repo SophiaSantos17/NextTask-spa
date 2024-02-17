@@ -45,7 +45,7 @@ export default function Routes() {
             <Stack.Screen name="Listas" component={Listas} options={{headerShown: true}}/>
 
             {/* Carregar a tela de Informação da Tarefa */}
-            <Stack.Screen name="InfoTarefa" component={InfoTarefa} options={{headerShown: true}}/>
+            <Stack.Screen name="InfoTarefa" component={InfoTarefa} options={{headerShown: false}}/>
 
 
         </Stack.Navigator>

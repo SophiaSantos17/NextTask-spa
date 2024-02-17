@@ -12,6 +12,7 @@ import { useAuth } from '../../context/AuthContext.js';
 
 
 export default function Signin() {
+  const [apiErrors, setApiErrors] = useState("");
   const {login} = useAuth();
   const navigate = useNavigation();
   const [showBanner, setShowBanner] = useState(true);
@@ -24,7 +25,7 @@ export default function Signin() {
       navigate.navigate("Home");
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      // Lógica para lidar com erros, se necessário
+      setApiErrors(error.message);
     }
   }
 
@@ -60,7 +61,7 @@ export default function Signin() {
             <Image source={require('../../assets/banner.png')} style={styles.banner} />
           </View>
         )}
-
+        {apiErrors && <ErrorInput text={apiErrors} />}
         <View style={styles.boxInfos}>
           <Controller 
             control={control}
