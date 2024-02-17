@@ -4,7 +4,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 
-export default function CardList({priority}){
+export default function CardList({priority, text, date}){
     const navigate = useNavigation();
 
     function activatePriority(){
@@ -27,8 +27,8 @@ export default function CardList({priority}){
         <TouchableOpacity style={styles.cardList} onPress={() => navigate.navigate("InfoTarefa")}> 
             <View style={[styles.boxPriority, {backgroundColor: activatePriority()}]}></View>
             <View style={styles.boxTitleDate}>
-                <Text style={styles.titleTask}>Ir para academia</Text>
-                <Text style={styles.dateTask}>22/01/2023</Text>
+                <Text style={styles.titleTask}>{text}</Text>
+                <Text style={styles.dateTask}>{date}</Text>
             </View>
         </TouchableOpacity>
     );
