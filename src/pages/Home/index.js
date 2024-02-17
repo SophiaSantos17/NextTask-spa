@@ -3,13 +3,14 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { userLogged } from '../../services/user';
 import { useAuth } from '../../context/AuthContext';
-import {format, parseISO} from "date-fns";
+import {format} from "date-fns";
 
 
 // componentes criados
 import Navbar from '../../components/navbar';
 import CardRecent from '../../components/cardRecents';
 import CardList from '../../components/cardList';
+import { getAllTarefas } from '../../services/tarefas';
 
 
 function getDate(){
@@ -19,14 +20,16 @@ function getDate(){
 }
 
 export default function Home() {
+
   const [user, setUser] = useState({});
+  const [tarefas, setTarefas] = useState({});
   const navigate = useNavigation();
   const {token} = useAuth();
   const date = getDate();
 
 
-  async function validateToken() {
-    if (!token) await navigate.navigate("Signin");
+  function validateToken() {
+    if (!token) navigate.navigate("Signin");
   }
   
 
@@ -40,11 +43,19 @@ export default function Home() {
     }
   }
 
-  
+  async function getAllTasks(){
+    try{
+      const tarefaResponse = await getAllTarefas(token);
+      setTarefas(tarefaResponse.data);
+    }catch(error){
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     validateToken();
     getUserLogged();
+    getAllTasks();
   }, []);
 
   
@@ -62,34 +73,35 @@ export default function Home() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
       >
-        <View style={styles.boxRecents}>
-          <CardRecent priority="Baixa"/>
-          <CardRecent priority="Alta"/>
-          <CardRecent priority="Media"/>
-          <CardRecent priority="Alta"/>
-          <CardRecent priority="Media"/>
-          <CardRecent priority="Alta"/>
-          <CardRecent priority="Baixa"/>
-        </View>
+        {tarefas.length ? (
+          <View style={styles.boxRecents}>
+            {tarefas.slice(0, 5).map((tarefa, index) => (
+              <CardRecent key={index} priority={tarefa.prioridade} date={format(new Date(tarefa.dataTarefa), 'dd/MM/yyyy')} text={tarefa.titulo} />
+            ))}
+          
+          </View>
+          ):(
+          <Text>Sem tarefa recente</Text>
+        )}
+        
+        
+          
       </ScrollView>
 
 
       <Text style={styles.title}>To Do</Text>
       <ScrollView vertical={true} showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollViewContent}>
-        <View style={styles.boxTasks}>
-          <CardList priority="Baixa" />
-          <CardList priority="Alta" />
-          <CardList priority="Baixa" />
-          <CardList priority="Media" />
-          <CardList priority="Alta" />
-          <CardList priority="Media" />
-          <CardList priority="Alta" />
-          <CardList priority="Baixa" />
-          <CardList priority="Alta" />
-          <CardList priority="Media" />
-          <CardList priority="Baixa" />
-          <CardList priority="Media" />
-        </View>
+        {tarefas.length ? (
+          <View style={styles.boxTasks}>
+            {tarefas.map((tarefa, index) => (
+              <CardList key={index} priority={tarefa.prioridade} date={format(new Date(tarefa.dataTarefa), 'dd/MM/yyyy')} text={tarefa.titulo} />
+            ))}
+          
+          </View>
+          ):(
+            <Text>Sem tarefa recente</Text>
+          )
+        }
       </ScrollView>
 
 
