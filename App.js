@@ -1,9 +1,14 @@
-// importar os arquivos com as rotas
-import Routes from "./src/routes/routes";
+// App.js
+import React from 'react';
+import { AuthProvider } from './src/context/AuthContext';
+import Routes from './src/routes/routes';
 
 const App = () => {
-  // carregar o arquivo de rotas
-  return <Routes/>;
+  return (
+    <AuthProvider>
+        <Routes />
+    </AuthProvider>
+  );
 }
 
 export default App;
