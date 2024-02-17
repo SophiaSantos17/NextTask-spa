@@ -39,7 +39,7 @@ export default function Routes() {
             <Stack.Screen name="Signup" component={Signup} options={{headerShown: false}}/>
             
             {/* Carregar a tela de Adicionar Nova Tareda */}
-            <Stack.Screen name="NovaTarefa" component={NovaTarefa} options={{headerShown: true}}/>
+            <Stack.Screen name="NovaTarefa" component={NovaTarefa} options={{headerShown: false}}/>
 
             {/* Carregar a tela de Listas */}
             <Stack.Screen name="Listas" component={Listas} options={{headerShown: true}}/>
