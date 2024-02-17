@@ -1,18 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { userLogged } from '../../services/user';
+import { useAuth } from '../../context/AuthContext';
+import {format, parseISO} from "date-fns";
+
 
 // componentes criados
 import Navbar from '../../components/navbar';
 import CardRecent from '../../components/cardRecents';
 import CardList from '../../components/cardList';
 
+
+function getDate(){
+  const currentDate = new Date();
+  const formatDate = format(currentDate, 'dd/MM/yyyy');
+  return formatDate;
+}
+
 export default function Home() {
+  const [user, setUser] = useState({});
+  const navigate = useNavigation();
+  const {token} = useAuth();
+  const date = getDate();
+
+
+  async function validateToken() {
+    if (!token) await navigate.navigate("Signin");
+  }
+  
+
+  async function getUserLogged() {
+    try {
+        const userResponse = await userLogged(token);
+        setUser(userResponse.data);
+    } catch (error) {
+        console.log("Erro ao obter usuário logado:", error);
+        throw error; // Lança o erro novamente para tratamento na camada superior
+    }
+  }
+
+  
+
+  useEffect(() => {
+    validateToken();
+    getUserLogged();
+  }, []);
+
+  
   return (
     <View style={styles.container}>
 
       <View style={styles.header}>
-        <Text style={styles.welcome}>Bem vindo, Fulano</Text>
-        <Text style={styles.date}>22/01/23</Text>
+        <Text style={styles.welcome}>Bem vindo, {user.name}</Text>
+        <Text style={styles.date}>{date}</Text>
       </View>
 
       <Text style={styles.title}>Recentes</Text>
@@ -22,13 +63,13 @@ export default function Home() {
         contentContainerStyle={styles.scrollViewContent}
       >
         <View style={styles.boxRecents}>
-          <CardRecent />
-          <CardRecent />
-          <CardRecent />
-          <CardRecent />
-          <CardRecent />
-          <CardRecent />
-          <CardRecent />
+          <CardRecent priority="Baixa"/>
+          <CardRecent priority="Alta"/>
+          <CardRecent priority="Media"/>
+          <CardRecent priority="Alta"/>
+          <CardRecent priority="Media"/>
+          <CardRecent priority="Alta"/>
+          <CardRecent priority="Baixa"/>
         </View>
       </ScrollView>
 
