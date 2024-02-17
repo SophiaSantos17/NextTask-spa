@@ -11,19 +11,29 @@ import { useForm, Controller  } from 'react-hook-form';
 import { Image, StyleSheet, View, Text, TouchableOpacity , KeyboardAvoidingView, Platform, Keyboard} from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '../../schemas/signupSchema';
-
+import { signup } from '../../services/user';
 
 //
 export default function Signup() {
   const [showBanner, setShowBanner] = useState(true);
+
   const navigate = useNavigation(); // cria uma variavel que recebe a função useNavigate que é usada para navejar entre telas
+
   const { control, handleSubmit, formState: {errors} } = useForm({resolver: zodResolver(signupSchema)}); 
   // zodResolver é onde esta sendo chamado os tratamento de erro
   // variaveis que vão inicializar o useForm para gerenciar o estado do formulário
+  
+  async function onSubmit(data){ // função que será chamada ao clicar no botão de enviar os dados
+    try{
+      
+      await signup(data);
+      navigate.navigate("Signin"); // redireciona para a tela Home após o cadastro
+      // return(<ErrorInput text="Faça o Login"/>)
 
-  function onSubmit(data){ // função que será chamada ao clicar no botão de enviar os dados
-    navigate.navigate("Home"); // redireciona para a tela Home após o cadastro
-    console.log(data);
+    }catch(error){
+      console.error(error)
+    }
+
   }
 
   useEffect(() => {
@@ -65,8 +75,9 @@ export default function Signup() {
           render={({ field: { onChange, value } }) => (
             <InputBlue
               style={styles.input}
-              placeholder="Nome"
+              placeholder="Primeiro Nome"
               onChangeText={(text) => onChange(text)}
+              type="text"
             />
         )}/>
         {errors.name && <ErrorInput text={errors.name.message}/>}
@@ -79,6 +90,7 @@ export default function Signup() {
               style={styles.input}
               placeholder="Email"
               onChangeText={(text) => onChange(text)}
+              type="email"
             />
         )}/>
         {errors.email && <ErrorInput text={errors.email.message}/>}
@@ -91,11 +103,12 @@ export default function Signup() {
               style={styles.input}
               placeholder="Senha"
               onChangeText={(text) => onChange(text)}
+              type="password"
             />
         )}/>
         {errors.password && <ErrorInput text={errors.password.message}/>}
       
-      <Button title="Entrar" onPress={handleSubmit(onSubmit)} />
+      <Button title="Criar" onPress={handleSubmit(onSubmit)} />
 
         <View style={styles.boxDivision}>
           <View style={styles.line}/>
