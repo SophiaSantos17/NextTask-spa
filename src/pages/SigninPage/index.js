@@ -4,19 +4,28 @@ import { useForm, Controller  } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {signinSchema} from "../../schemas/signinSchema.js"
+import { signin } from '../../services/user.js';
 import ErrorInput from '../../components/errorInput';
 import Button from '../../components/button';
 import InputBlue from '../../components/inputBlue';
+import { useAuth } from '../../context/AuthContext.js';
 
 
 export default function Signin() {
+  const {login} = useAuth();
   const navigate = useNavigation();
   const [showBanner, setShowBanner] = useState(true);
   const { control, handleSubmit, formState: {errors} } = useForm({resolver: zodResolver(signinSchema)});
 
-  function onSubmit(data){
-    navigate.navigate("Home"); // redireciona para a tela Home após o cadastro
-    console.log(data);
+  async function onSubmit(data){
+    try {
+      const token = await signin(data);
+      login(token);
+      navigate.navigate("Home");
+    } catch (error) {
+      console.error("Erro ao fazer login:", error);
+      // Lógica para lidar com erros, se necessário
+    }
   }
 
   useEffect(() => {
@@ -34,6 +43,7 @@ export default function Signin() {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
     };
+
   }, []);
 
   return (
@@ -59,6 +69,7 @@ export default function Signin() {
               <InputBlue
                 placeholder="Email"
                 onChangeText={(text) => onChange(text)}
+                type="email"
               />
           )}/>
           {errors.email && <ErrorInput text={errors.email.message} />}
@@ -70,6 +81,7 @@ export default function Signin() {
               <InputBlue
                 placeholder="Senha"
                 onChangeText={(text) => onChange(text)}
+                type="password"
               />
           )}/>
           {errors.password  && <ErrorInput text={errors.password.message} />}
