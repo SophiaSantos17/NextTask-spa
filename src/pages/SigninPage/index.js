@@ -88,7 +88,7 @@ export default function Signin() {
           {errors.password  && <ErrorInput text={errors.password.message} />}
 
         
-        <Button title="Entrar" onPress={handleSubmit(onSubmit)} />
+        <Button title="Entrar" onPress={handleSubmit(onSubmit)} width={300} />
 
           <View style={styles.boxDivision}>
             <View style={styles.line}/>

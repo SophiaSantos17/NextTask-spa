@@ -18,8 +18,6 @@ const InputPriority = ({ label, value, onSelect, selected, priority }) => {
     ...styles.label,
   };
 
-
-
   return (
     <TouchableOpacity onPress={handlePress} disabled={selected}>
       <View style={[styles.container, containerStyle]}>
@@ -33,11 +31,11 @@ const InputPriority = ({ label, value, onSelect, selected, priority }) => {
 const getPriorityColor = (priority) => {
   switch (priority) {
     case "Alta":
-      return "#F20C0C"; // vermelho
+      return "#F20C0C";
     case "Media":
-      return "#0CB7F2"; // azul principal do aplicativo
+      return "#0CB7F2";
     case "Baixa":
-      return "#2EC221"; //verde
+      return "#2EC221";
     default:
       return "#000"; // Cor padrão, se necessário
   }
@@ -46,7 +44,7 @@ const getPriorityColor = (priority) => {
 // Estilos para o componente
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
+    borderWidth: 2,
     padding: 10,
     margin: 5,
     borderRadius: 30,
@@ -54,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   label: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
   },

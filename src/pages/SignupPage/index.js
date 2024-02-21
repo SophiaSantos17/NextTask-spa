@@ -108,7 +108,7 @@ export default function Signup() {
         )}/>
         {errors.password && <ErrorInput text={errors.password.message}/>}
       
-      <Button title="Criar" onPress={handleSubmit(onSubmit)} />
+      <Button title="Criar" onPress={handleSubmit(onSubmit)} width={300} />
 
         <View style={styles.boxDivision}>
           <View style={styles.line}/>

@@ -76,7 +76,7 @@ export default function Home() {
         {tarefas.length ? (
           <View style={styles.boxRecents}>
             {tarefas.slice(0, 5).map((tarefa, index) => (
-              <CardRecent key={index} priority={tarefa.prioridade} date={format(new Date(tarefa.dataTarefa), 'dd/MM/yyyy')} text={tarefa.titulo} />
+              <CardRecent key={index} priority={tarefa.prioridade} date={format(new Date(tarefa.data), 'dd/MM/yyyy')} text={tarefa.titulo} />
             ))}
           
           </View>
@@ -94,7 +94,7 @@ export default function Home() {
         {tarefas.length ? (
           <View style={styles.boxTasks}>
             {tarefas.map((tarefa, index) => (
-              <CardList key={index} priority={tarefa.prioridade} date={format(new Date(tarefa.dataTarefa), 'dd/MM/yyyy')} text={tarefa.titulo} />
+              <CardList key={index} priority={tarefa.prioridade} date={format(new Date(tarefa.data), 'dd/MM/yyyy')} text={tarefa.titulo} />
             ))}
           
           </View>

@@ -3,15 +3,16 @@ import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 
 // Cria e exporta a função do componente InputBlue, que recebe as props placeholder e onChangeText
-export default function InputTarefa({ placeholder, type }) {
+export default function InputTarefa({ placeholder, onChangeText, height, align }) {
   return (
     // Retorna o componente TextInput com as props fornecidas
     <TextInput
       placeholder={placeholder}
       placeholderTextColor="#0CB7F2"
       // onChangeText é uma função que será chamada sempre que o texto dentro do componente for alterado pelo usuário
-    //   onChangeText={onChangeText}
-      style={styles.input}
+      onChangeText={onChangeText}
+      style={[styles.input, {height: height, textAlignVertical: align}]}
+      multiline
     />
   );
 }
@@ -20,8 +21,8 @@ export default function InputTarefa({ placeholder, type }) {
 const styles = StyleSheet.create({
   // Define os estilos para o componente TextInput
   input: {
-    width: 300,
-    height: 70,
+    width: 340,
+    // height: 70,
     color: "#0CB7F2",
     backgroundColor: "#fff",
     borderRadius: 19,
@@ -29,13 +30,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginVertical: 5,
     shadowColor: "#2B3031",
-        shadowOffset: {
-        width: 0,
-        height: 3,
-        },
-        shadowOpacity:  0.9,
-        shadowRadius: 3.05,
-        elevation: 7,
-        marginHorizontal: 5,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity:  0.9,
+    shadowRadius: 3.05,
+    elevation: 7,
+    paddingVertical: 10,
   }
 });

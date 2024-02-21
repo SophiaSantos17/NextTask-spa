@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Icon from 'react-native-vector-icons/Ionicons'; // Certifique-se de ter instalado a biblioteca de ícones
+import Icon from 'react-native-vector-icons/Ionicons'; 
 
-export default function InputDate(){
+export default function InputDate({ onChange }) {
   const [showPicker, setShowPicker] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date()); // Definindo a data inicial como a data atual
 
   const handleDateChange = (event, date) => {
     if (date !== undefined) {
       setShowPicker(false);
       setSelectedDate(date);
-      // Faça algo com a data selecionada, se necessário
+      onChange(date);
     } else {
       setShowPicker(false);
     }
@@ -21,20 +21,22 @@ export default function InputDate(){
     setShowPicker(true);
   };
 
-  const formattedDate = selectedDate.toLocaleDateString('pt-BR', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
+  const formattedDate = selectedDate
+    ? selectedDate.toLocaleDateString('pt-BR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      })
+    : 'Data';
 
   return (
-      <TouchableOpacity onPress={handleInputPress}>
-        <View style={styles.input}>
-          <Icon name="calendar-outline" size={20} color="#000" style={styles.icon} />
-          <Text style={styles.dateText}>{selectedDate ? formattedDate : 'Data'}</Text>
-        </View>
+    <TouchableOpacity onPress={handleInputPress}>
+      <View style={styles.input}>
+        <Icon name="calendar-outline" size={20} color="#000" style={styles.icon} />
+        <Text style={styles.dateText}>{formattedDate}</Text>
+      </View>
 
-        {showPicker && (
+      {showPicker && (
         <DateTimePicker
           mode="date"
           display="calendar"
@@ -43,11 +45,10 @@ export default function InputDate(){
           locale="pt-BR"
         />
       )}
-      </TouchableOpacity>
-
-      
+    </TouchableOpacity>
   );
-};
+}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     width: 340,
     height: 70,
     paddingHorizontal: 20,
-    borderRadius: 25,
+    borderRadius: 19,
     shadowColor: "#2B3031",
         shadowOffset: {
         width: 0,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 8,
     color: "#0CB7F2",
-    fontSize: 25,
+    fontSize: 35,
   },
   dateText: {
     flex: 1,
