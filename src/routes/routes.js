@@ -22,7 +22,7 @@ export default function Routes() {
     // Agrupar as rotas
     <NavigationContainer>
         {/* Criar uma pilha de páginas */}
-        <Stack.Navigator initialRouteName="NovaTarefa">
+        <Stack.Navigator initialRouteName="SplashScreen">
             {/* Carregar a Splash Sreen */}
             <Stack.Screen name="SplashScreen" component={SplashScreen} options={{headerShown: false}}/>
 
