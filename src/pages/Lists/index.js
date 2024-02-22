@@ -1,8 +1,258 @@
-import React from "react";
-import {Text} from "react-native";
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Modal, ScrollView, ActivityIndicator } from 'react-native';
+import Navbar from '../../components/navbar';
+import OptionList from '../../components/cardOptionList';
+import { getAllTarefas, deleteTask } from '../../services/tarefas';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigation } from '@react-navigation/core';
+import { format } from 'date-fns';
 
-export default function Listas(){
-    return(
-        <Text>Ola, Listas</Text>
-    );
-}
+
+
+export default function Listas() {
+  // Inicialização de variáveis de estado
+  const navigate = useNavigation(); // Hook para obter o objeto de navegação
+  const { token } = useAuth(); // Hook para obter o token de autenticação
+  const [mostrarExclusao, setMostrarExclusao] = useState(false); // Estado para controlar a exibição do modal de exclusão
+  const [tarefas, setTarefas] = useState([]); // Estado para armazenar a lista de tarefas
+  const [id, setid] = useState(); // Estado para armazenar o ID da tarefa selecionada
+  const [mostrarFeitos, setMostrarFeitos] = useState(false); // Estado para alternar entre a exibição de tarefas feitas e a fazer
+  const [mostrarLista, setMostrarLista] = useState(true); // Estado para controlar a exibição da lista de tarefas a fazer
+  const [isLoading, setIsLoading] = useState(true); // Estado para indicar se os dados estão sendo carregados
+
+
+  // Função para obter todas as tarefas
+  async function getAllTasks() {
+    try {
+      const tarefaResponse = await getAllTarefas(token);
+      setTarefas(tarefaResponse.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // Indica que o carregamento dos dados foi concluído
+      setIsLoading(false);
+    }
+  }
+
+  // Função para lidar com a exclusão de uma tarefa
+  const handleDelete = (taskId) => {
+    setMostrarExclusao(!mostrarExclusao);
+    setid(taskId);
+    console.log(id);
+  };
+
+  // Função para exibir as tarefas concluídas
+  const handleFeitos = () => {
+    setMostrarFeitos(true);
+    setMostrarLista(false);
+  };
+
+  // Função para exibir as tarefas a fazer
+  const handleLista = () => {
+    setMostrarLista(true);
+    setMostrarFeitos(false);
+  };
+
+  // Função para deletar uma tarefa
+  async function deleteTaskById() {
+    try {
+      console.log("ID para exclusão:", id); // Verifique se id está definido corretamente
+      await deleteTask(token, id);
+      console.log("Tarefa excluída com sucesso!!!");
+      // Atualiza a lista de tarefas após a exclusão
+      getAllTasks();
+      // Fecha o modal de exclusão
+      setMostrarExclusao(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Função para lidar com a marcação de uma tarefa como concluída
+  function handleCheck() {
+    // Lógica para marcar a tarefa como concluída
+  }
+
+  // Função para ir para a página de informações da tarefa
+  function handleInfo() {
+    // Lógica para ir para a página de informações da tarefa
+  };
+
+  // Efeito que é executado ao montar o componente
+  useEffect(() => {
+    getAllTasks();
+  }, []);
+
+  return (
+    <View style={styles.containerList}>
+      <View style={styles.headerList}>
+        <Image source={require('../../assets/logo.png')} style={styles.imgLogo} />
+
+        <View style={styles.boxNav}>
+          <TouchableOpacity style={styles.buttonNav} onPress={handleLista}>
+            <Text>To Do</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonNav} onPress={handleFeitos}>
+            <Text>Feitos</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Componente de Loading */}
+      {isLoading && (
+        <ActivityIndicator size="large" color="#0CB7F2" />
+      )}
+
+      {/* Lista de Tarefas */}
+      <ScrollView
+        vertical={true}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.boxListOptions}
+      >
+        {mostrarLista && (
+          <View style={styles.boxRecents}>
+            {tarefas.map((tarefa, index) => (
+              <OptionList
+                key={index}
+                text={tarefa.titulo}
+                date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
+                onDelete={() => handleDelete(tarefa._id)}
+                onCheck={handleCheck}
+                onInfo={handleInfo}
+                priority={tarefa.prioridade}
+              />
+            ))}
+          </View>
+        )}
+
+        {/* Lista de Tarefas Concluídas */}
+        {mostrarFeitos && (
+          <View style={styles.boxFeitos}>
+            <Text>Feitos</Text>
+          </View>
+        )}
+      </ScrollView>
+
+      <View style={styles.boxNavbar}>
+        <Navbar />
+      </View>
+
+      {/* Modal de Exclusão */}
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={mostrarExclusao}
+        onRequestClose={() => setMostrarExclusao(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.boxExcluir}>
+            <Text style={styles.textTitleExcluir}>Deseja mesmo excluir a tarefa</Text>
+            <Text style={styles.nameTarefaExcluir}>nome da tarefa</Text>
+            <TouchableOpacity onPress={deleteTaskById} style={styles.btnConfirmarExcluir}>
+              <Text style={{ fontSize: 20, color: "#fff", fontWeight: "bold" }}>Sim</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setMostrarExclusao(false)} style={styles.btnNegarExcluir}>
+              <Text style={{ fontSize: 20, color: "#0CB7F2", fontWeight: "bold" }}>Não</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  containerList: {
+    backgroundColor: "#fff",
+    height: "100%",
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  headerList: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  boxNav: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: "space-around"
+  },
+  imgLogo: {
+    width: 200,
+    height: 100,
+    marginTop: 30,
+    alignItems: "center"
+  },
+  buttonNav: {
+    width: "45%",
+    height: 40,
+    backgroundColor: "#fff",
+    borderWidth: 2,
+    borderColor: "#0CB7F2",
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    marginHorizontal: 5,
+  },
+  boxListOptions: {
+    width: "100%",
+    alignItems: 'center',
+    paddingVertical: 10,
+    display: 'flex',
+  },
+  boxNavbar: {
+    paddingVertical: 20,
+    height: "12%",
+    bottom: 0,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  boxExcluir: {
+    width: 300,
+    height: 240,
+    backgroundColor: "#0CB7F2",
+    paddingHorizontal: 10,
+    paddingVertical: 30,
+    borderRadius: 20,
+    alignItems: 'center',
+  },
+  textTitleExcluir: {
+    fontSize: 19,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 0,
+  },
+  nameTarefaExcluir: {
+    fontSize: 20,
+    fontStyle: 'italic',
+    color: "#fff",
+    marginTop: -3,
+    fontWeight: "300"
+  },
+  btnConfirmarExcluir: {
+    width: 160,
+    height: 40,
+    borderColor: "#fff",
+    borderWidth: 2,
+    borderRadius: 50,
+    color: "#fff",
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  btnNegarExcluir: {
+    marginTop: 10,
+    width: 160,
+    height: 40,
+    backgroundColor: "white",
+    borderColor: "#fff",
+    borderWidth: 2,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
