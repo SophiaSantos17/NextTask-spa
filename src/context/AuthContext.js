@@ -7,7 +7,11 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
 
   const login = useCallback((newToken) => {
-    setToken(newToken);
+    if (newToken) {
+      setToken(newToken);
+    } else {
+      console.error('Login falhou. Token não fornecido.');
+    }
   }, []);
 
   const logout = useCallback(() => {

@@ -42,7 +42,7 @@ export default function Routes() {
             <Stack.Screen name="NovaTarefa" component={NovaTarefa} options={{headerShown: false}}/>
 
             {/* Carregar a tela de Listas */}
-            <Stack.Screen name="Listas" component={Listas} options={{headerShown: true}}/>
+            <Stack.Screen name="Listas" component={Listas} options={{headerShown: false}}/>
 
             {/* Carregar a tela de Informação da Tarefa */}
             <Stack.Screen name="InfoTarefa" component={InfoTarefa} options={{headerShown: false}}/>

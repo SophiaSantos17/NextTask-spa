@@ -26,3 +26,16 @@ export async function getAllTarefas(token){
         console.log(error);
     }
 }
+
+
+// DELETE: Deletar uma tarefa
+export async function deleteTask(id, token) {
+    try{
+        const response = await axios.delete(`${BASE_URL}/tarefas${id}`, {
+            headers:{Authorization:`Bearer ${token}`}
+        });
+        return response;
+    }catch(error){
+        console.log(error);
+    }
+}

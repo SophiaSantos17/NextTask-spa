@@ -19,7 +19,9 @@ export default function CardList({priority, text, date}){
         else if (priority === "Baixa"){
             backgroundColor = "#14FF00"
         }
-
+        else if (priority === 1){
+            backgroundColor = "#BCEEFF"
+        }
         return backgroundColor;
     }
 

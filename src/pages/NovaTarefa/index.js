@@ -26,11 +26,6 @@ export default function NovaTarefa(){
     { label: "Outro", value: "Outro" },
   ];
 
-  const handleSelect = (selectedValue) => {
-    // Lógica para lidar com a seleção da opção
-    console.log("Opção selecionada:", selectedValue);
-  };
-
   return(
     <View style={styles.containerCreate}>
       <Header text="Criar nova tarefa"/>
