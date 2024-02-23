@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { userLogged } from '../../services/user';
 import { useAuth } from '../../context/AuthContext';
@@ -31,6 +31,9 @@ export default function Home() {
   const date = getDate();
   // Função de autenticação
   const { token, logout } = useAuth();
+  // função para atulaizar com as tarefas mais recentes
+  const [lastUpdated, setLastUpdated] = useState(null);
+
 
   // Verifica se o token está presente, se não, redireciona para a tela de login
   function validateToken() {
@@ -53,6 +56,8 @@ export default function Home() {
     try {
       const tarefaResponse = await getAllTarefas(token);
       setTarefas(tarefaResponse.data);
+      setLastUpdated(new Date()); // Atualiza o timestamp da última atualização
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -72,7 +77,7 @@ export default function Home() {
     validateToken();
     getUserLogged();
     getAllTasks();
-  }, []);
+  }, [lastUpdated]);
 
   // Se os dados estiverem sendo carregados, exibe um indicador de atividade
   if (isLoading) {
@@ -83,6 +88,12 @@ export default function Home() {
     );
   }
 
+  // Ordenar as tarefas com base em createdAt
+  const recentTarefas = tarefas
+    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .slice(0, 5);
+
+
   // Renderiza a tela principal
   return (
     <View style={styles.container}>
@@ -90,7 +101,11 @@ export default function Home() {
       <View style={styles.header}>
         <Text style={styles.welcome}>Bem vindo, {user.name}</Text>
         <Text style={styles.date}>{date}</Text>
-        <Button title="Logout" onPress={handleLogout} />
+        <View style={styles.boxButtonLogout}>
+          <TouchableOpacity title="Logout" onPress={handleLogout} style={styles.buttonLogout}>
+            <Text style={{color: "#fff", fontSize: 20}}>Sair</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Seção de tarefas recentes */}
@@ -100,19 +115,25 @@ export default function Home() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
       >
-        {tarefas.length ? (
+        {recentTarefas.length ? (
           <View style={styles.boxRecents}>
-            {tarefas.slice(0, 5).map((tarefa, index) => (
-              <CardRecent
-                key={index}
-                priority={tarefa.prioridade}
-                date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
-                text={tarefa.titulo}
-              />
+            {recentTarefas.slice(0, 5).map((tarefa, index) => (
+              tarefa.status === 0 ? (
+                <CardRecent
+                  key={index}
+                  priority={tarefa.prioridade}
+                  date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
+                  text={tarefa.titulo}
+                  onPress={() => navigate.navigate("InfoTarefa", { tarefaId: tarefa._id })}
+                />
+              ) : null
             ))}
-          </View>
+        </View>
         ) : (
-          <Text>Sem tarefa recente</Text>
+          <View style={styles.boxRecents}>
+            <Text style={styles.info}>Sem tarefa recente</Text>
+
+          </View>
         )}
       </ScrollView>
 
@@ -122,16 +143,19 @@ export default function Home() {
         {tarefas.length ? (
           <View style={styles.boxTasks}>
             {tarefas.map((tarefa, index) => (
-              <CardList
-                key={index}
-                priority={tarefa.prioridade}
-                date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
-                text={tarefa.titulo}
-              />
+              tarefa.status === 0 ? (
+                <CardList
+                  key={index}
+                  priority={tarefa.prioridade}
+                  date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
+                  text={tarefa.titulo}
+                  onPress={() => navigate.navigate("InfoTarefa", { tarefaId: tarefa._id })}
+                />
+              ) : null
             ))}
           </View>
         ) : (
-          <Text>Sem tarefa recente</Text>
+          <Text style={styles.info}>Sem tarefa recente</Text>
         )}
       </ScrollView>
 
@@ -154,6 +178,7 @@ const styles = StyleSheet.create({
   header: {
     height: '15%',
     width: '100%',
+    backgroundColor: "pink",
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -170,16 +195,32 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 20,
   },
+  boxButtonLogout:{
+    alignItems: "flex-end",
+    position: 'relative',
+    width: "100%",
+    bottom: 25,
+  },
+  buttonLogout:{
+    width: 100,
+    height: 30,
+    backgroundColor: "#0CB7F2",
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   scrollViewContent: {
     flexGrow: 1,
     alignItems: 'center',
+
   },
   boxRecents: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    height: 180,
+    height: 160,
     width: '90%',
+    // backgroundColor: "blue"
   },
   boxTasks: {
     height: 'auto',
@@ -197,5 +238,8 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
     marginVertical: 20,
+  },
+  info:{
+    fontSize: 20,
   },
 });

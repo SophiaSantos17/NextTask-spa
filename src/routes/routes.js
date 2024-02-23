@@ -13,6 +13,7 @@ import SplashScreen from "../pages/SplashScreen";
 import NovaTarefa from "../pages/NovaTarefa";
 import Listas from "../pages/Lists";
 import InfoTarefa from "../pages/InfoTarefa";
+import EditarTarefa from "../pages/EditarTarefa";
 
 // Configuração e gestão da navegação entre telas
 const Stack = createNativeStackNavigator();
@@ -46,6 +47,9 @@ export default function Routes() {
 
             {/* Carregar a tela de Informação da Tarefa */}
             <Stack.Screen name="InfoTarefa" component={InfoTarefa} options={{headerShown: false}}/>
+
+            {/* Carregar a tela de Editar Tarefa */}
+            <Stack.Screen name="EditarTarefa" component={EditarTarefa} options={{headerShown: false}}/>
 
 
         </Stack.Navigator>

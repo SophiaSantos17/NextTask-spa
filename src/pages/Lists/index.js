@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, Modal, ScrollView, ActivityIndicator } from 'react-native';
 import Navbar from '../../components/navbar';
 import OptionList from '../../components/cardOptionList';
-import { getAllTarefas, deleteTask } from '../../services/tarefas';
+import { getAllTarefas, deleteTask, editTaskStatus } from '../../services/tarefas';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigation } from '@react-navigation/core';
 import { format } from 'date-fns';
+import CardList from '../../components/cardList';
 
 
 
@@ -19,7 +20,6 @@ export default function Listas() {
   const [mostrarFeitos, setMostrarFeitos] = useState(false); // Estado para alternar entre a exibição de tarefas feitas e a fazer
   const [mostrarLista, setMostrarLista] = useState(true); // Estado para controlar a exibição da lista de tarefas a fazer
   const [isLoading, setIsLoading] = useState(true); // Estado para indicar se os dados estão sendo carregados
-
 
   // Função para obter todas as tarefas
   async function getAllTasks() {
@@ -38,7 +38,6 @@ export default function Listas() {
   const handleDelete = (taskId) => {
     setMostrarExclusao(!mostrarExclusao);
     setid(taskId);
-    console.log(id);
   };
 
   // Função para exibir as tarefas concluídas
@@ -56,8 +55,7 @@ export default function Listas() {
   // Função para deletar uma tarefa
   async function deleteTaskById() {
     try {
-      console.log("ID para exclusão:", id); // Verifique se id está definido corretamente
-      await deleteTask(token, id);
+      await deleteTask(id, token);
       console.log("Tarefa excluída com sucesso!!!");
       // Atualiza a lista de tarefas após a exclusão
       getAllTasks();
@@ -69,19 +67,25 @@ export default function Listas() {
   }
 
   // Função para lidar com a marcação de uma tarefa como concluída
-  function handleCheck() {
+  function handleCheck(taskId) {
     // Lógica para marcar a tarefa como concluída
+    editTaskStatus(taskId, token)
+      .then(() => {
+        console.log('Tarefa marcada como concluída com sucesso!');
+        getAllTasks();
+      })
+      .catch(error => {
+        console.error('Erro ao marcar a tarefa como concluída:', error);
+      });
   }
-
-  // Função para ir para a página de informações da tarefa
-  function handleInfo() {
-    // Lógica para ir para a página de informações da tarefa
-  };
 
   // Efeito que é executado ao montar o componente
   useEffect(() => {
     getAllTasks();
   }, []);
+
+  const estiloFeitos = mostrarFeitos ? { backgroundColor: "#0CB7F2", color: "#fff" } : {};
+  const estiloLista = mostrarLista ? { backgroundColor: "#0CB7F2", color: "#fff" } : {};
 
   return (
     <View style={styles.containerList}>
@@ -89,11 +93,11 @@ export default function Listas() {
         <Image source={require('../../assets/logo.png')} style={styles.imgLogo} />
 
         <View style={styles.boxNav}>
-          <TouchableOpacity style={styles.buttonNav} onPress={handleLista}>
-            <Text>To Do</Text>
+          <TouchableOpacity style={{...styles.buttonNav, ...estiloLista}} onPress={handleLista}>
+            <Text style={estiloLista}>To Do</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonNav} onPress={handleFeitos}>
-            <Text>Feitos</Text>
+          <TouchableOpacity style={{...styles.buttonNav, ...estiloFeitos}} onPress={handleFeitos}>
+            <Text style={estiloFeitos}>Feitos</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -111,24 +115,39 @@ export default function Listas() {
       >
         {mostrarLista && (
           <View style={styles.boxRecents}>
-            {tarefas.map((tarefa, index) => (
-              <OptionList
-                key={index}
-                text={tarefa.titulo}
-                date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
-                onDelete={() => handleDelete(tarefa._id)}
-                onCheck={handleCheck}
-                onInfo={handleInfo}
-                priority={tarefa.prioridade}
-              />
-            ))}
+           {tarefas.map((tarefa, index) => {
+              if (tarefa.status === 0 || tarefa.status === "") {
+                return(
+                  <OptionList
+                    key={index}
+                    text={tarefa.titulo}
+                    date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
+                    onDelete={() => handleDelete(tarefa._id)}
+                    onCheck={() => handleCheck(tarefa._id)}
+                    onInfo={() => navigate.navigate("EditarTarefa", { tarefaId: tarefa._id })}
+                    priority={tarefa.prioridade}
+                  />
+                )
+              }
+            })}
           </View>
         )}
 
         {/* Lista de Tarefas Concluídas */}
         {mostrarFeitos && (
           <View style={styles.boxFeitos}>
-            <Text>Feitos</Text>
+            {tarefas.map((tarefa, index) => {
+              if (tarefa.status === 1){
+                return(
+                  <CardList
+                    key={index}
+                    priority={tarefa.status}
+                    date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
+                    text={tarefa.titulo}
+                  />
+                )
+              }
+            })}
           </View>
         )}
       </ScrollView>

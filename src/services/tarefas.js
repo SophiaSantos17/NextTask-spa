@@ -1,8 +1,7 @@
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
 
 
-const BASE_URL = "https://nice-teal-worm-tutu.cyclic.app";
+const BASE_URL = "https://skirt-dugong.cyclic.app";
 
 export async function createTarefa(data, token){
     try{
@@ -27,11 +26,48 @@ export async function getAllTarefas(token){
     }
 }
 
+export async function getbyIdTarefas(token, id){
+    try{
+        const response = await axios.get(`${BASE_URL}/tarefas/${id}`, {
+            headers:{Authorization:`Bearer ${token}`}
+        });
+        return response;
+    }catch(error){
+        console.log(error);
+    }
+}
+
+// EDIT: Editar uma tareda
+export async function editTask(id, data, token) {
+    try {
+        const response = await axios.put(`${BASE_URL}/tarefas/${id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+        });
+        return response;
+    }catch (error) {
+        console.log(error);
+    }
+}
+
+// EDIT: editar o status de uma tarefa
+export async function editTaskStatus(id, token) {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/tarefas/${id}`,
+        { status: 1 }, 
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw error; // Rejeita o erro para que ele possa ser tratado na chamada da função
+    }
+  }
 
 // DELETE: Deletar uma tarefa
 export async function deleteTask(id, token) {
     try{
-        const response = await axios.delete(`${BASE_URL}/tarefas${id}`, {
+        const response = await axios.delete(`${BASE_URL}/tarefas/${id}`, {
             headers:{Authorization:`Bearer ${token}`}
         });
         return response;

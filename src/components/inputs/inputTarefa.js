@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 
 // Cria e exporta a função do componente InputBlue, que recebe as props placeholder e onChangeText
-export default function InputTarefa({ placeholder, onChangeText, height, align }) {
+export default function InputTarefa({ placeholder, onChangeText, height, align, value }) {
   return (
     // Retorna o componente TextInput com as props fornecidas
     <TextInput
@@ -13,6 +13,7 @@ export default function InputTarefa({ placeholder, onChangeText, height, align }
       onChangeText={onChangeText}
       style={[styles.input, {height: height, textAlignVertical: align}]}
       multiline
+      value={value}
     />
   );
 }

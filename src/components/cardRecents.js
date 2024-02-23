@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 
-export default function CardRecent({priority, text, date}){
+export default function CardRecent({priority, text, date, onPress}){
     const navigate = useNavigation();
 
     function activePriority(){
@@ -24,7 +24,7 @@ export default function CardRecent({priority, text, date}){
     }
 
     return(
-        <TouchableOpacity style={styles.cardRecent} onPress={() => navigate.navigate("InfoTarefa")}>
+        <TouchableOpacity style={styles.cardRecent} onPress={onPress}>
             <View style={styles.boxTitleDate}>
                 <Text style={styles.titleTask}>{text}</Text>
                 <Text style={styles.dateTask}>{date}</Text>

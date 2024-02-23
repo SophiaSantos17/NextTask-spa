@@ -7,7 +7,7 @@ const OptionType = ({ options, onChange  }) => {
 
   const handleValueChange = (itemValue, itemIndex) => {
     setSelectedValue(itemValue);
-    onChange(itemValue); // Notifica o Controller sobre a mudança
+    onChange(itemValue); 
   };
 
   return (
@@ -16,11 +16,12 @@ const OptionType = ({ options, onChange  }) => {
         selectedValue={selectedValue}
         onValueChange={handleValueChange}
         style={styles.optionGroup}
+        value={selectedValue} 
       >
-        <Picker.Item label="Tipo da Tarefa" value={null} style={styles.option}/>
-        {options.map((option, index) => (
-          <Picker.Item key={index} label={option.label} value={option.value} style={styles.option} />
-        ))}
+        <Picker.Item label="Tipo da Tarefa" value={null} style={styles.option} />
+          {options.map((option, index) => (
+            <Picker.Item key={index} label={option.label} value={option.value} style={styles.option} />
+          ))}
       </Picker>
     </View>
   );

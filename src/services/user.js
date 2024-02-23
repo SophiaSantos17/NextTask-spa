@@ -1,8 +1,7 @@
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
 
 
-const BASE_URL = "https://nice-teal-worm-tutu.cyclic.app";
+const BASE_URL = "https://skirt-dugong.cyclic.app";
 
 export async function signup(data) {
     try {

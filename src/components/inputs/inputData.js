@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/Ionicons'; 
 
-export default function InputDate({ onChange }) {
+export default function InputDate({ onChange, value }) {
   const [showPicker, setShowPicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date()); // Definindo a data inicial como a data atual
 
@@ -21,19 +21,21 @@ export default function InputDate({ onChange }) {
     setShowPicker(true);
   };
 
-  const formattedDate = selectedDate
-    ? selectedDate.toLocaleDateString('pt-BR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-    : 'Data';
+  const formatDate = (date) => {
+    return date
+      ? date.toLocaleDateString('pt-BR', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
+      : 'Data';
+  };
 
   return (
     <TouchableOpacity onPress={handleInputPress}>
       <View style={styles.input}>
         <Icon name="calendar-outline" size={20} color="#000" style={styles.icon} />
-        <Text style={styles.dateText}>{formattedDate}</Text>
+        <Text style={styles.dateText}>{formatDate(selectedDate)}</Text>
       </View>
 
       {showPicker && (
