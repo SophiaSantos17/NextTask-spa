@@ -17,6 +17,9 @@ import { signup } from '../../services/user';
 export default function Signup() {
   const [showBanner, setShowBanner] = useState(true);
 
+  
+  const [apiErrors, setApiErrors] = useState(""); // variavel para receber os erros da api
+
   const navigate = useNavigation(); // cria uma variavel que recebe a função useNavigate que é usada para navejar entre telas
 
   const { control, handleSubmit, formState: {errors} } = useForm({resolver: zodResolver(signupSchema)}); 
@@ -31,7 +34,7 @@ export default function Signup() {
       // return(<ErrorInput text="Faça o Login"/>)
 
     }catch(error){
-      console.error(error)
+      setApiErrors("Erro ao fazer cadastro. Por favor, tente novamente.");
     }
 
   }
@@ -69,6 +72,7 @@ export default function Signup() {
         )}
 
       <View style={styles.boxInfos}>
+      {apiErrors && <ErrorInput text={apiErrors} />}
         <Controller 
           control={control}
           name='name'

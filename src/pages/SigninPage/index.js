@@ -24,8 +24,15 @@ export default function Signin() {
       login(token);
       navigate.navigate("Home");
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
-      setApiErrors(error.message);
+      // console.error("Erro ao fazer login:", error);
+
+      if (error.response && error.response.status === 401) {
+        // Erro de autenticação, exibir mensagem personalizada
+        setApiErrors("Email ou Senha inválido");
+      } else {
+        // Outro tipo de erro, exibir mensagem padrão
+        setApiErrors("Erro ao fazer login. Por favor, tente novamente.");
+      }
     }
   }
 
@@ -61,8 +68,9 @@ export default function Signin() {
             <Image source={require('../../assets/banner.png')} style={styles.banner} />
           </View>
         )}
-        {apiErrors && <ErrorInput text={apiErrors} />}
+        
         <View style={styles.boxInfos}>
+          {apiErrors && <ErrorInput text={apiErrors} />}
           <Controller 
             control={control}
             name='email'

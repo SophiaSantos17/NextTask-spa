@@ -3,6 +3,7 @@ import axios from "axios";
 
 const BASE_URL = "https://skirt-dugong.cyclic.app";
 
+// CREATE: Criar uma nova tarefa
 export async function createTarefa(data, token){
     try{
         const response = await axios.post(`${BASE_URL}/tarefas`, data, {
@@ -11,10 +12,11 @@ export async function createTarefa(data, token){
         return response;
 
     }catch(error){
-        console.log("Erro na criação da tarefa: ", error);
+        console.log("Erro na criação da tarefa: ", error.message);
     }
 }
 
+// READ: Trazer todas as tarefas pelo usuario(token)
 export async function getAllTarefas(token){
     try{
         const response = await axios.get(`${BASE_URL}/tarefas`, {
@@ -26,52 +28,38 @@ export async function getAllTarefas(token){
     }
 }
 
+// READ: Trazer uma tarefa pelo id
 export async function getbyIdTarefas(token, id){
-    try{
-        const response = await axios.get(`${BASE_URL}/tarefas/${id}`, {
-            headers:{Authorization:`Bearer ${token}`}
-        });
-        return response;
-    }catch(error){
-        console.log(error);
-    }
+    const response = await axios.get(`${BASE_URL}/tarefas/${id}`, {
+        headers:{Authorization:`Bearer ${token}`}
+    });
+    return response;
+   
 }
 
 // EDIT: Editar uma tareda
 export async function editTask(id, data, token) {
-    try {
-        const response = await axios.put(`${BASE_URL}/tarefas/${id}`, data, {
-        headers: { Authorization: `Bearer ${token}` },
-        });
-        return response;
-    }catch (error) {
-        console.log(error);
-    }
+    const response = await axios.put(`${BASE_URL}/tarefas/${id}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+    });
+    return response;
 }
 
 // EDIT: editar o status de uma tarefa
 export async function editTaskStatus(id, token) {
-    try {
-      const response = await axios.put(
-        `${BASE_URL}/tarefas/${id}`,
+    const response = await axios.put(`${BASE_URL}/tarefas/${id}`,
         { status: 1 }, 
         { headers: { Authorization: `Bearer ${token}` } }
-      );
-      return response;
-    } catch (error) {
-      console.log(error);
-      throw error; // Rejeita o erro para que ele possa ser tratado na chamada da função
-    }
+    );
+    return response;
+    
   }
 
 // DELETE: Deletar uma tarefa
 export async function deleteTask(id, token) {
-    try{
-        const response = await axios.delete(`${BASE_URL}/tarefas/${id}`, {
-            headers:{Authorization:`Bearer ${token}`}
-        });
-        return response;
-    }catch(error){
-        console.log(error);
-    }
+    const response = await axios.delete(`${BASE_URL}/tarefas/${id}`, {
+        headers:{Authorization:`Bearer ${token}`}
+    });
+    return response;
+    
 }
