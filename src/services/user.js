@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const BASE_URL = "https://skirt-dugong.cyclic.app";
+const BASE_URL = "https://nice-teal-giraffe-toga.cyclic.app";
 
 export async function signup(data) {
     const response = await axios.post(`${BASE_URL}/signup`, data);

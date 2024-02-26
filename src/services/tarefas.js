@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const BASE_URL = "https://skirt-dugong.cyclic.app";
+const BASE_URL = "https://nice-teal-giraffe-toga.cyclic.app";
 
 // CREATE: Criar uma nova tarefa
 export async function createTarefa(data, token){

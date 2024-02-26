@@ -16,7 +16,10 @@ export default function Signin() {
   const {login} = useAuth();
   const navigate = useNavigation();
   const [showBanner, setShowBanner] = useState(true);
-  const { control, handleSubmit, formState: {errors} } = useForm({resolver: zodResolver(signinSchema)});
+  const { control, handleSubmit, formState: {errors} } = useForm({
+    resolver: zodResolver(signinSchema), // chama  a validação do schema definido no zod
+    shouldUnregister: true, // Impede a atualização automática durante a digitação
+  }); 
 
   async function onSubmit(data){
     try {
@@ -37,6 +40,7 @@ export default function Signin() {
   }
 
   useEffect(() => {
+    
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => setShowBanner(false)
@@ -72,29 +76,34 @@ export default function Signin() {
         <View style={styles.boxInfos}>
           {apiErrors && <ErrorInput text={apiErrors} />}
           <Controller 
-            control={control}
-            name='email'
-            render={({ field: { onChange, value } }) => (
+          control={control}
+          name='email'
+          render={({ field: { onChange, value } }) => (
+            <>
               <InputBlue
+                style={styles.input}
                 placeholder="Email"
                 onChangeText={(text) => onChange(text)}
                 type="email"
               />
-          )}/>
-          {errors.email && <ErrorInput text={errors.email.message} />}
+              {errors.email && <ErrorInput text={errors.email.message}/>}
+            </>
+        )}/>
 
-          <Controller 
-            control={control}
-            name='password'
-            render={({ field: { onChange, value } }) => (
+        <Controller 
+          control={control}
+          name='password'
+          render={({ field: { onChange, value } }) => (
+            <>
               <InputBlue
+                style={styles.input}
                 placeholder="Senha"
                 onChangeText={(text) => onChange(text)}
                 type="password"
-              />
-          )}/>
-          {errors.password  && <ErrorInput text={errors.password.message} />}
-
+                />
+              {errors.password && <ErrorInput text={errors.password.message}/>}
+            </>
+        )}/>
         
         <Button title="Entrar" onPress={handleSubmit(onSubmit)} width={300} />
 

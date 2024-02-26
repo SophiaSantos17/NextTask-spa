@@ -10,22 +10,29 @@ import { Controller, useForm } from 'react-hook-form';
 import { createTarefa } from '../../services/tarefas';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { TarefaSchema } from '../../schemas/createTeask';
+import ErrorInput from '../../components/errorInput';
 
 export default function NovaTarefa() {
   const [selectedItem, setSelectedItem] = useState(null);
   const { token } = useAuth();
-  const navigate = useNavigation()
+  const navigate = useNavigation();
+
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({resolver: zodResolver(TarefaSchema),
+    shouldUnregister: true
+  });
 
   async function onSubmit(data) {
     try {
       await createTarefa(data, token);
-      navigate.navigate('Home');
+      console.log(data)
+      // navigate.navigate('Home');
     } catch (error) {
       console.log(error);
     }
@@ -54,12 +61,15 @@ export default function NovaTarefa() {
           control={control}
           name='titulo'
           render={({ field: { onChange, value } }) => (
-            <InputTarefa
-              placeholder='Titulo'
-              height={70}
-              align='center'
-              onChangeText={(text) => onChange(text)}
-            />
+            <>
+              <InputTarefa
+                placeholder='Titulo'
+                height={70}
+                align='center'
+                onChangeText={(text) => onChange(text)}
+              />
+              {errors.titulo && <ErrorInput text={errors.titulo.message}/>}
+            </>
           )}
         />
 
@@ -144,12 +154,15 @@ export default function NovaTarefa() {
           control={control}
           name='descricao'
           render={({ field: { onChange, value } }) => (
-            <InputTarefa
-              placeholder='Descrição'
-              height={150}
-              align='top'
-              onChangeText={(text) => onChange(text)}
-            />
+            <>
+              <InputTarefa
+                placeholder='Descrição'
+                height={150}
+                align='top'
+                onChangeText={(text) => onChange(text)}
+              />
+              {errors.descricao && <ErrorInput text={errors.descricao.message}/>}
+            </>
           )}
         />
 

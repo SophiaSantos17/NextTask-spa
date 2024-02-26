@@ -22,7 +22,10 @@ export default function Signup() {
 
   const navigate = useNavigation(); // cria uma variavel que recebe a função useNavigate que é usada para navejar entre telas
 
-  const { control, handleSubmit, formState: {errors} } = useForm({resolver: zodResolver(signupSchema)}); 
+  const { control, handleSubmit, formState: {errors} } = useForm({
+    resolver: zodResolver(signupSchema), // chama  a validação do schema definido no zod
+    shouldUnregister: true, // Impede a atualização automática durante a digitação
+  }); 
   // zodResolver é onde esta sendo chamado os tratamento de erro
   // variaveis que vão inicializar o useForm para gerenciar o estado do formulário
   
@@ -31,8 +34,7 @@ export default function Signup() {
       
       await signup(data);
       navigate.navigate("Signin"); // redireciona para a tela Home após o cadastro
-      // return(<ErrorInput text="Faça o Login"/>)
-
+      
     }catch(error){
       setApiErrors("Erro ao fazer cadastro. Por favor, tente novamente.");
     }
@@ -77,40 +79,46 @@ export default function Signup() {
           control={control}
           name='name'
           render={({ field: { onChange, value } }) => (
-            <InputBlue
-              style={styles.input}
-              placeholder="Primeiro Nome"
-              onChangeText={(text) => onChange(text)}
-              type="text"
-            />
+            <>
+              <InputBlue
+                style={styles.input}
+                placeholder="Primeiro Nome"
+                onChangeText={(text) => onChange(text)}
+                type="text"
+              />
+              {errors.name && <ErrorInput text={errors.name.message}/>}
+            </>
         )}/>
-        {errors.name && <ErrorInput text={errors.name.message}/>}
 
         <Controller 
           control={control}
           name='email'
           render={({ field: { onChange, value } }) => (
-            <InputBlue
-              style={styles.input}
-              placeholder="Email"
-              onChangeText={(text) => onChange(text)}
-              type="email"
-            />
+            <>
+              <InputBlue
+                style={styles.input}
+                placeholder="Email"
+                onChangeText={(text) => onChange(text)}
+                type="email"
+              />
+              {errors.email && <ErrorInput text={errors.email.message}/>}
+            </>
         )}/>
-        {errors.email && <ErrorInput text={errors.email.message}/>}
 
         <Controller 
           control={control}
           name='password'
           render={({ field: { onChange, value } }) => (
-            <InputBlue
-              style={styles.input}
-              placeholder="Senha"
-              onChangeText={(text) => onChange(text)}
-              type="password"
-            />
+            <>
+              <InputBlue
+                style={styles.input}
+                placeholder="Senha"
+                onChangeText={(text) => onChange(text)}
+                type="password"
+                />
+              {errors.password && <ErrorInput text={errors.password.message}/>}
+            </>
         )}/>
-        {errors.password && <ErrorInput text={errors.password.message}/>}
       
       <Button title="Criar" onPress={handleSubmit(onSubmit)} width={300} />
 
