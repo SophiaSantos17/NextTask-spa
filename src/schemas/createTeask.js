@@ -4,8 +4,9 @@ export const TarefaSchema = z.object({
   titulo: string().min(3).refine((value) => value !== undefined, {
     message: 'O campo "titulo" é obrigatório.',
   }),
-  descricao: string().min(3).optional(),
-  status: number().refine((value) => value === undefined || value === 0 || value === 1, {
-    message: 'O campo "status" deve ser 0 ou 1.',
-  }).optional(),
+  descricao: string().min(3).optional().nullable(),
+  data: string().nonempty("A Data da Tarefa é obrigatória"),
+  status: number().optional(),
+  prioridade: string().nonempty("A Prioridade da Tarefa é obrigatória"),
+  tipo_tarefa: string().nonempty("O Tipo da Tarefa é obrigatório"),
 });
