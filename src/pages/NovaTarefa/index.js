@@ -11,7 +11,7 @@ import { createTarefa } from '../../services/tarefas';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TarefaSchema } from '../../schemas/createTeask';
+import { TarefaSchema } from '../../schemas/createTask';
 import ErrorInput from '../../components/errorInput';
 
 export default function NovaTarefa() {
@@ -24,19 +24,19 @@ export default function NovaTarefa() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({resolver: zodResolver(TarefaSchema),
-    shouldUnregister: true
-  });
+  } = useForm();
 
-  async function onSubmit(data) {
-    try {
+
+  async function onSubmit(data){
+    try{
+      await createTarefa(data, token);
+      navigate.navigate("Home")
       console.log(data);
-      // await createTarefa(data, token);
-      // navigate.navigate('Home');
-    } catch (error) {
-      console.log(error);
+    }catch(error){
+      console.log(error)
     }
   }
+
 
   const options = [
     { label: 'Pessoal', value: 'Pessoal' },
@@ -47,11 +47,6 @@ export default function NovaTarefa() {
     { label: 'Outro', value: 'Outro' },
   ];
 
-  const handleSelect = (selectedValue) => {
-    // Lógica para lidar com a seleção da opção
-    console.log('Opção selecionada:', selectedValue);
-  };
-
   return (
     <View style={styles.containerCreate}>
       <Header text='Criar nova tarefa' />
@@ -61,15 +56,12 @@ export default function NovaTarefa() {
           control={control}
           name='titulo'
           render={({ field: { onChange, value } }) => (
-            <>
               <InputTarefa
                 placeholder='Titulo'
                 height={70}
                 align='center'
                 onChangeText={(text) => onChange(text)}
               />
-              {errors.titulo && <ErrorInput text={errors.titulo.message}/>}
-            </>
           )}
         />
 
@@ -78,12 +70,9 @@ export default function NovaTarefa() {
           name='data'
           defaultValue={new Date()}
           render={({ field: { onChange, value } }) => (
-            <>
               <InputDate
                 onChange={onChange} // Passa a função onChange para receber a data selecionada
               />
-              {errors.data && <ErrorInput text={errors.data.message}/>}
-              </>
           )}
         />
 
@@ -94,7 +83,6 @@ export default function NovaTarefa() {
               control={control}
               name='prioridade'
               render={({ field: { onChange, value } }) => (
-                <>
                   <InputPriority
                     label='Alta'
                     value='Alta'
@@ -105,15 +93,12 @@ export default function NovaTarefa() {
                     selected={selectedItem === 'Alta'}
                     priority='Alta'
                   />
-                  {errors.prioridade && <ErrorInput text={errors.prioridade.message}/>}
-                </>
               )}
             />
             <Controller
               control={control}
               name='prioridade'
               render={({ field: { onChange, value } }) => (
-                <>
                   <InputPriority
                     label='Média'
                     value='Media'
@@ -124,15 +109,12 @@ export default function NovaTarefa() {
                     selected={selectedItem === 'Media'}
                     priority='Media'
                   />
-                  {errors.prioridade && <ErrorInput text={errors.prioridade.message}/>}
-                </>
               )}
             />
             <Controller
               control={control}
               name='prioridade'
               render={({ field: { onChange, value } }) => (
-                <>
                   <InputPriority
                     label='Baixa'
                     value='Baixa'
@@ -143,8 +125,6 @@ export default function NovaTarefa() {
                     selected={selectedItem === 'Baixa'}
                     priority='Baixa'
                   />
-                  {errors.prioridade && <ErrorInput text={errors.prioridade.message}/>}
-                </>
               )}
             />
           </View>
@@ -155,13 +135,10 @@ export default function NovaTarefa() {
           name='tipo_tarefa'
           defaultValue='Pessoal' // valor padrão, se necessário
           render={({ field: { onChange, value } }) => (
-            <>
               <OptionType
                 options={options}
                 onChange={onChange}
               />
-              {errors.tipo_tarefa && <ErrorInput text={errors.tipo_tarefa.message}/>}
-            </>
           )}
         />
 
@@ -169,15 +146,12 @@ export default function NovaTarefa() {
           control={control}
           name='descricao'
           render={({ field: { onChange, value } }) => (
-            <>
               <InputTarefa
                 placeholder='Descrição'
                 height={150}
                 align='top'
                 onChangeText={(text) => onChange(text)}
               />
-              {errors.descricao && <ErrorInput text={errors.descricao.message}/>}
-              </>
           )}
         />
 
@@ -186,6 +160,7 @@ export default function NovaTarefa() {
           width={340}
           onPress={handleSubmit(onSubmit)}
         />
+
       </View>
     </View>
   );

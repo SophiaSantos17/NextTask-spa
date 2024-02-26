@@ -10,13 +10,16 @@ export default function InputDate({ onChange, value }) {
   const handleDateChange = (event, date) => {
     if (date !== undefined) {
       setShowPicker(false);
+  
+      // Formatando a data para "aaaa-mm-dd"
+      const formattedDate = date.toISOString().split('T')[0];
+  
       setSelectedDate(date);
-      onChange(date);
+      onChange(formattedDate);
     } else {
       setShowPicker(false);
     }
   };
-
   const handleInputPress = () => {
     setShowPicker(true);
   };

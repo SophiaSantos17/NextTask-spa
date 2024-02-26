@@ -13,7 +13,7 @@ export default function CardRecent({priority, text, date, onPress}){
         if (priority === "Alta"){
             backgroundColor = "#F20C0C";
         }
-        else if (priority === "Media"){
+        else if (priority === "Média"){
             backgroundColor = "#0CB7F2";
         }
         else if (priority === "Baixa"){

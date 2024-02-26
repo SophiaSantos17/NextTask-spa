@@ -59,6 +59,7 @@ export default function EditarTarefa() {
     try {
       await editTask(tarefaId, data, token);
       navigate.navigate('Home');
+      // console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -119,13 +120,13 @@ export default function EditarTarefa() {
               render={({ field: { onChange, value } }) => (
                 <InputPriority
                   label='Média'
-                  value='Media'
+                  value='Média'
                   onSelect={() => {
-                    onChange('Media');
-                    setSelectedItem('Media');
+                    onChange('Média');
+                    setSelectedItem('Média');
                   }}
-                  selected={selectedItem === 'Media'}
-                  priority='Media'
+                  selected={selectedItem === 'Média'}
+                  priority='Média'
                 />
               )}
             />

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const BASE_URL = "https://nice-teal-giraffe-toga.cyclic.app";
+const BASE_URL = "http://172.16.1.169:5000";
 
 // CREATE: Criar uma nova tarefa
 export async function createTarefa(data, token){

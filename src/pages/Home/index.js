@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   header: {
-    height: '15%',
+    height: '20%',
     width: '100%',
     backgroundColor: "pink",
     display: 'flex',
