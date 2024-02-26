@@ -30,8 +30,8 @@ export default function NovaTarefa() {
 
   async function onSubmit(data) {
     try {
-      await createTarefa(data, token);
-      console.log(data)
+      console.log(data);
+      // await createTarefa(data, token);
       // navigate.navigate('Home');
     } catch (error) {
       console.log(error);
@@ -78,9 +78,12 @@ export default function NovaTarefa() {
           name='data'
           defaultValue={new Date()}
           render={({ field: { onChange, value } }) => (
-            <InputDate
-              onChange={onChange} // Passa a função onChange para receber a data selecionada
-            />
+            <>
+              <InputDate
+                onChange={onChange} // Passa a função onChange para receber a data selecionada
+              />
+              {errors.data && <ErrorInput text={errors.data.message}/>}
+              </>
           )}
         />
 
@@ -91,48 +94,57 @@ export default function NovaTarefa() {
               control={control}
               name='prioridade'
               render={({ field: { onChange, value } }) => (
-                <InputPriority
-                  label='Alta'
-                  value='Alta'
-                  onSelect={() => {
-                    onChange('Alta'); // Atualiza o valor do campo de formulário usando o react-hook-form
-                    setSelectedItem('Alta'); // Atualiza o estado do seu componente
-                  }}
-                  selected={selectedItem === 'Alta'}
-                  priority='Alta'
-                />
+                <>
+                  <InputPriority
+                    label='Alta'
+                    value='Alta'
+                    onSelect={() => {
+                      onChange('Alta'); // Atualiza o valor do campo de formulário usando o react-hook-form
+                      setSelectedItem('Alta'); // Atualiza o estado do seu componente
+                    }}
+                    selected={selectedItem === 'Alta'}
+                    priority='Alta'
+                  />
+                  {errors.prioridade && <ErrorInput text={errors.prioridade.message}/>}
+                </>
               )}
             />
             <Controller
               control={control}
               name='prioridade'
               render={({ field: { onChange, value } }) => (
-                <InputPriority
-                  label='Média'
-                  value='Media'
-                  onSelect={() => {
-                    onChange('Media'); // Atualiza o valor do campo de formulário usando o react-hook-form
-                    setSelectedItem('Media'); // Atualiza o estado do seu componente
-                  }}
-                  selected={selectedItem === 'Media'}
-                  priority='Media'
-                />
+                <>
+                  <InputPriority
+                    label='Média'
+                    value='Media'
+                    onSelect={() => {
+                      onChange('Media'); // Atualiza o valor do campo de formulário usando o react-hook-form
+                      setSelectedItem('Media'); // Atualiza o estado do seu componente
+                    }}
+                    selected={selectedItem === 'Media'}
+                    priority='Media'
+                  />
+                  {errors.prioridade && <ErrorInput text={errors.prioridade.message}/>}
+                </>
               )}
             />
             <Controller
               control={control}
               name='prioridade'
               render={({ field: { onChange, value } }) => (
-                <InputPriority
-                  label='Baixa'
-                  value='Baixa'
-                  onSelect={() => {
-                    onChange('Baixa'); // Atualiza o valor do campo de formulário usando o react-hook-form
-                    setSelectedItem('Baixa'); // Atualiza o estado do seu componente
-                  }}
-                  selected={selectedItem === 'Baixa'}
-                  priority='Baixa'
-                />
+                <>
+                  <InputPriority
+                    label='Baixa'
+                    value='Baixa'
+                    onSelect={() => {
+                      onChange('Baixa'); // Atualiza o valor do campo de formulário usando o react-hook-form
+                      setSelectedItem('Baixa'); // Atualiza o estado do seu componente
+                    }}
+                    selected={selectedItem === 'Baixa'}
+                    priority='Baixa'
+                  />
+                  {errors.prioridade && <ErrorInput text={errors.prioridade.message}/>}
+                </>
               )}
             />
           </View>
@@ -143,10 +155,13 @@ export default function NovaTarefa() {
           name='tipo_tarefa'
           defaultValue='Pessoal' // valor padrão, se necessário
           render={({ field: { onChange, value } }) => (
-            <OptionType
-              options={options}
-              onChange={onChange}
-            />
+            <>
+              <OptionType
+                options={options}
+                onChange={onChange}
+              />
+              {errors.tipo_tarefa && <ErrorInput text={errors.tipo_tarefa.message}/>}
+            </>
           )}
         />
 
@@ -162,7 +177,7 @@ export default function NovaTarefa() {
                 onChangeText={(text) => onChange(text)}
               />
               {errors.descricao && <ErrorInput text={errors.descricao.message}/>}
-            </>
+              </>
           )}
         />
 
