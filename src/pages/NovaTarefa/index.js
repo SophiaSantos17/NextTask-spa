@@ -10,9 +10,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { createTarefa } from '../../services/tarefas';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { TarefaSchema } from '../../schemas/createTeask';
-import ErrorInput from '../../components/errorInput';
 
 export default function NovaTarefa() {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -29,7 +26,8 @@ export default function NovaTarefa() {
 
   async function onSubmit(data) {
     try {
-      console.log(data);
+      await createTarefa(data, token)
+      navigate.navigate("Home")
     }catch(error){
       console.log(error)
     }

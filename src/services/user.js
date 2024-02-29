@@ -2,8 +2,6 @@ import axios from "axios";
 
 const BASE_URL = "http://192.168.10.187:5000";
 
-const BASE_URL = "https://nice-teal-giraffe-toga.cyclic.app";
-
 export async function signup(data) {
     const response = await axios.post(`${BASE_URL}/signup`, data);
     return response;
