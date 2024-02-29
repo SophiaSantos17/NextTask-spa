@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   header: {
-    height: '18%',
+    height: '15%',
     width: '100%',
     backgroundColor: "pink",
     display: 'flex',
