@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
 import InputTarefa from '../../components/inputs/inputTarefa';
 import InputDate from '../../components/inputs/inputData';
 import InputPriority from '../../components/inputs/inputPriority';
@@ -59,13 +59,15 @@ export default function EditarTarefa() {
     try {
       await editTask(tarefaId, data, token);
       navigate.navigate('Home');
+      // console.log(data);
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <View style={styles.containerCreate}>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.containerCreate}>
       <Header text='Editar Tarefa' />
 
       <View style={styles.boxInputs}>
@@ -119,13 +121,13 @@ export default function EditarTarefa() {
               render={({ field: { onChange, value } }) => (
                 <InputPriority
                   label='Média'
-                  value='Media'
+                  value='Média'
                   onSelect={() => {
-                    onChange('Media');
-                    setSelectedItem('Media');
+                    onChange('Média');
+                    setSelectedItem('Média');
                   }}
-                  selected={selectedItem === 'Media'}
-                  priority='Media'
+                  selected={selectedItem === 'Média'}
+                  priority='Média'
                 />
               )}
             />
@@ -180,7 +182,7 @@ export default function EditarTarefa() {
           onPress={handleSubmit(onSubmit)}
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

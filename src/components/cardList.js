@@ -13,7 +13,7 @@ export default function CardList({priority, text, date, onPress}){
         if (priority === "Alta"){
             backgroundColor = "#F20C0C";
         }
-        else if (priority === "Media"){
+        else if (priority === "Média"){
             backgroundColor = "#0CB7F2"
         }
         else if (priority === "Baixa"){
@@ -29,7 +29,7 @@ export default function CardList({priority, text, date, onPress}){
         <TouchableOpacity style={styles.cardList} onPress={onPress}> 
             <View style={[styles.boxPriority, {backgroundColor: activatePriority()}]}></View>
             <View style={styles.boxTitleDate}>
-                <Text style={styles.titleTask}>{text}</Text>
+                <Text style={styles.titleTask} numberOfLines={1} ellipsizeMode="tail">{text}</Text>
                 <Text style={styles.dateTask}>{date}</Text>
             </View>
         </TouchableOpacity>

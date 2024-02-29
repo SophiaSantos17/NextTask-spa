@@ -37,7 +37,7 @@ export default function InfoTarefa() {
     switch (priority) {
       case "Alta":
         return "#F20C0C"; // vermelho
-      case "Media":
+      case "Média":
         return "#0CB7F2"; // azul principal do aplicativo
       case "Baixa":
         return "#2EC221"; //verde
@@ -59,7 +59,7 @@ export default function InfoTarefa() {
           <Text style={styles.title}>{tarefa.titulo}</Text>
 
           <Text style={styles.subtitle}>Descrição:</Text>
-          <Text style={styles.text}>{tarefa.descricao}</Text>
+          <Text style={styles.text} numberOfLines={5} ellipsizeMode="tail">{tarefa.descricao}</Text>
 
           <View style={styles.boxTipos}>
             <View style={styles.boxTT}>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     width: "90%",
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    height: 350,
+    height: "auto",
     borderWidth: 2,
     // borderColor: "red", //
     padding: 20,

@@ -30,8 +30,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },  
     boxBtnBack: {
-        width: "auto",
-        paddingTop: 20
+        height: "100%",
+        // paddingTop: 50
+        justifyContent: "center",
     },
     btnBack:{
         width: 30,

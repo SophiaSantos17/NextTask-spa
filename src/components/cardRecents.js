@@ -13,7 +13,7 @@ export default function CardRecent({priority, text, date, onPress}){
         if (priority === "Alta"){
             backgroundColor = "#F20C0C";
         }
-        else if (priority === "Media"){
+        else if (priority === "Média"){
             backgroundColor = "#0CB7F2";
         }
         else if (priority === "Baixa"){
@@ -26,7 +26,7 @@ export default function CardRecent({priority, text, date, onPress}){
     return(
         <TouchableOpacity style={styles.cardRecent} onPress={onPress}>
             <View style={styles.boxTitleDate}>
-                <Text style={styles.titleTask}>{text}</Text>
+                <Text style={styles.titleTask} numberOfLines={1} ellipsizeMode="tail">{text}</Text>
                 <Text style={styles.dateTask}>{date}</Text>
 
             </View>

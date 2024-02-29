@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import Animated, { Easing, useSharedValue, withSpring, withTiming, useAnimatedStyle } from 'react-native-reanimated';
 
-export default function OptionList({ text, date, onDelete, onCheck, onInfo, priority }){
+export default function OptionList({ text, date, onDelete, onCheck, onInfo, priority, onPress }){
     const expanded = useSharedValue(false);
 
     const toggleExpanded = () => {
@@ -27,7 +27,7 @@ export default function OptionList({ text, date, onDelete, onCheck, onInfo, prio
         if (priority === "Alta"){
             backgroundColor = "#F20C0C";
         }
-        else if (priority === "Media"){
+        else if (priority === "Média"){
             backgroundColor = "#0CB7F2"
         }
         else if (priority === "Baixa"){
@@ -42,7 +42,7 @@ export default function OptionList({ text, date, onDelete, onCheck, onInfo, prio
         <TouchableOpacity style={styles.cardListTouchable} onPress={toggleExpanded}>
           <View style={[styles.boxPriority, { backgroundColor: activatePriority() }]}></View>
           <View style={styles.boxTitleDate}>
-            <Text style={styles.titleTask}>{text}</Text>
+            <Text style={styles.titleTask} numberOfLines={1} ellipsizeMode="tail">{text}</Text>
             <Text style={styles.dateTask}>{date}</Text>
           </View>
         <Image source={require("../assets/icons/seta-para-a-direita.png")} style={styles.icon}/>

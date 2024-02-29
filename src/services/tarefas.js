@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const BASE_URL = "https://nice-teal-giraffe-toga.cyclic.app";
+const BASE_URL = "http://192.168.10.187:5000";
 
 // CREATE: Criar uma nova tarefa
 export async function createTarefa(data, token){
@@ -31,6 +31,15 @@ export async function getAllTarefas(token){
 // READ: Trazer uma tarefa pelo id
 export async function getbyIdTarefas(token, id){
     const response = await axios.get(`${BASE_URL}/tarefas/${id}`, {
+        headers:{Authorization:`Bearer ${token}`}
+    });
+    return response;
+   
+}
+
+// READ: Trazer as tarefas recentes
+export async function getRecentesTarefas(token){
+    const response = await axios.get(`${BASE_URL}/recentes`, {
         headers:{Authorization:`Bearer ${token}`}
     });
     return response;

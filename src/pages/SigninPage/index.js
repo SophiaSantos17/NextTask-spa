@@ -16,7 +16,7 @@ export default function Signin() {
   const {login} = useAuth();
   const navigate = useNavigation();
   const [showBanner, setShowBanner] = useState(true);
-  const { control, handleSubmit, formState: {errors} } = useForm({
+  const { control, handleSubmit, formState: {errors}, reset } = useForm({
     resolver: zodResolver(signinSchema), // chama  a validação do schema definido no zod
     shouldUnregister: true, // Impede a atualização automática durante a digitação
   }); 
@@ -25,6 +25,7 @@ export default function Signin() {
     try {
       const token = await signin(data);
       login(token);
+      reset();
       navigate.navigate("Home");
     } catch (error) {
       // console.error("Erro ao fazer login:", error);

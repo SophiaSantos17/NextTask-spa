@@ -1,14 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Modal, ScrollView, ActivityIndicator } from 'react-native';
-import Navbar from '../../components/navbar';
-import OptionList from '../../components/cardOptionList';
-import { getAllTarefas, deleteTask, editTaskStatus } from '../../services/tarefas';
-import { useAuth } from '../../context/AuthContext';
-import { useNavigation } from '@react-navigation/core';
-import { format } from 'date-fns';
-import CardList from '../../components/cardList';
-
-
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Modal,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
+import Navbar from "../../components/navbar";
+import OptionList from "../../components/cardOptionList";
+import {
+  getAllTarefas,
+  deleteTask,
+  editTaskStatus,
+  getbyIdTarefas,
+} from "../../services/tarefas";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigation } from "@react-navigation/core";
+import { format } from "date-fns";
+import CardList from "../../components/cardList";
 
 export default function Listas() {
   // Inicialização de variáveis de estado
@@ -20,6 +32,7 @@ export default function Listas() {
   const [mostrarFeitos, setMostrarFeitos] = useState(false); // Estado para alternar entre a exibição de tarefas feitas e a fazer
   const [mostrarLista, setMostrarLista] = useState(true); // Estado para controlar a exibição da lista de tarefas a fazer
   const [isLoading, setIsLoading] = useState(true); // Estado para indicar se os dados estão sendo carregados
+  const [tarefaTitle, setTarefaTitle] = useState("");
 
   // Função para obter todas as tarefas
   async function getAllTasks() {
@@ -34,10 +47,19 @@ export default function Listas() {
     }
   }
 
+  async function getTaskById(taskId) {
+    try {
+      await getbyIdTarefas(taskId);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // Função para lidar com a exclusão de uma tarefa
-  const handleDelete = (taskId) => {
-    setMostrarExclusao(!mostrarExclusao);
+  const handleDelete = (taskId, taskTitle) => {
+    setMostrarExclusao(true);
     setid(taskId);
+    setTarefaTitle(taskTitle);
   };
 
   // Função para exibir as tarefas concluídas
@@ -61,6 +83,7 @@ export default function Listas() {
       getAllTasks();
       // Fecha o modal de exclusão
       setMostrarExclusao(false);
+      
     } catch (error) {
       console.log(error);
     }
@@ -71,11 +94,11 @@ export default function Listas() {
     // Lógica para marcar a tarefa como concluída
     editTaskStatus(taskId, token)
       .then(() => {
-        console.log('Tarefa marcada como concluída com sucesso!');
+        console.log("Tarefa marcada como concluída com sucesso!");
         getAllTasks();
       })
-      .catch(error => {
-        console.error('Erro ao marcar a tarefa como concluída:', error);
+      .catch((error) => {
+        console.error("Erro ao marcar a tarefa como concluída:", error);
       });
   }
 
@@ -84,28 +107,39 @@ export default function Listas() {
     getAllTasks();
   }, []);
 
-  const estiloFeitos = mostrarFeitos ? { backgroundColor: "#0CB7F2", color: "#fff" } : {};
-  const estiloLista = mostrarLista ? { backgroundColor: "#0CB7F2", color: "#fff" } : {};
+  const estiloFeitos = mostrarFeitos
+    ? { backgroundColor: "#0CB7F2", color: "#fff" }
+    : {};
+  const estiloLista = mostrarLista
+    ? { backgroundColor: "#0CB7F2", color: "#fff" }
+    : {};
 
   return (
     <View style={styles.containerList}>
       <View style={styles.headerList}>
-        <Image source={require('../../assets/logo.png')} style={styles.imgLogo} />
+        <Image
+          source={require("../../assets/logo.png")}
+          style={styles.imgLogo}
+        />
 
         <View style={styles.boxNav}>
-          <TouchableOpacity style={{...styles.buttonNav, ...estiloLista}} onPress={handleLista}>
+          <TouchableOpacity
+            style={{ ...styles.buttonNav, ...estiloLista }}
+            onPress={handleLista}
+          >
             <Text style={estiloLista}>To Do</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={{...styles.buttonNav, ...estiloFeitos}} onPress={handleFeitos}>
+          <TouchableOpacity
+            style={{ ...styles.buttonNav, ...estiloFeitos }}
+            onPress={handleFeitos}
+          >
             <Text style={estiloFeitos}>Feitos</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       {/* Componente de Loading */}
-      {isLoading && (
-        <ActivityIndicator size="large" color="#0CB7F2" />
-      )}
+      {isLoading && <ActivityIndicator size="large" color="#0CB7F2" />}
 
       {/* Lista de Tarefas */}
       <ScrollView
@@ -115,19 +149,23 @@ export default function Listas() {
       >
         {mostrarLista && (
           <View style={styles.boxRecents}>
-           {tarefas.map((tarefa, index) => {
+            {tarefas.map((tarefa, index) => {
               if (tarefa.status === 0 || tarefa.status === "") {
-                return(
+                return (
                   <OptionList
-                    key={index}
+                    key={tarefa._id}
                     text={tarefa.titulo}
-                    date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
-                    onDelete={() => handleDelete(tarefa._id)}
+                    date={format(new Date(tarefa.data), "dd/MM/yyyy")}
+                    onDelete={() => handleDelete(tarefa._id, tarefa.titulo)}
                     onCheck={() => handleCheck(tarefa._id)}
-                    onInfo={() => navigate.navigate("EditarTarefa", { tarefaId: tarefa._id })}
+                    onInfo={() =>
+                      navigate.navigate("EditarTarefa", {
+                        tarefaId: tarefa._id,
+                      })
+                    }
                     priority={tarefa.prioridade}
                   />
-                )
+                );
               }
             })}
           </View>
@@ -137,15 +175,15 @@ export default function Listas() {
         {mostrarFeitos && (
           <View style={styles.boxFeitos}>
             {tarefas.map((tarefa, index) => {
-              if (tarefa.status === 1){
-                return(
+              if (tarefa.status === 1) {
+                return (
                   <CardList
                     key={index}
                     priority={tarefa.status}
-                    date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
+                    date={format(new Date(tarefa.data), "dd/MM/yyyy")}
                     text={tarefa.titulo}
                   />
-                )
+                );
               }
             })}
           </View>
@@ -165,42 +203,56 @@ export default function Listas() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.boxExcluir}>
-            <Text style={styles.textTitleExcluir}>Deseja mesmo excluir a tarefa</Text>
-            <Text style={styles.nameTarefaExcluir}>nome da tarefa</Text>
-            <TouchableOpacity onPress={deleteTaskById} style={styles.btnConfirmarExcluir}>
-              <Text style={{ fontSize: 20, color: "#fff", fontWeight: "bold" }}>Sim</Text>
+            <Text style={styles.textTitleExcluir}>
+              Deseja mesmo excluir a tarefa
+            </Text>
+            <Text style={styles.nameTarefaExcluir}>{tarefaTitle}</Text>
+            <TouchableOpacity
+              onPress={deleteTaskById}
+              style={styles.btnConfirmarExcluir}
+            >
+              <Text style={{ fontSize: 20, color: "#fff", fontWeight: "bold" }}>
+                Sim
+              </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setMostrarExclusao(false)} style={styles.btnNegarExcluir}>
-              <Text style={{ fontSize: 20, color: "#0CB7F2", fontWeight: "bold" }}>Não</Text>
+            <TouchableOpacity
+              onPress={() => setMostrarExclusao(false)}
+              style={styles.btnNegarExcluir}
+            >
+              <Text
+                style={{ fontSize: 20, color: "#0CB7F2", fontWeight: "bold" }}
+              >
+                Não
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   containerList: {
     backgroundColor: "#fff",
     height: "100%",
-    alignItems: 'center',
-    justifyContent: 'space-between'
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   headerList: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   boxNav: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: "space-around"
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
   },
   imgLogo: {
     width: 200,
     height: 100,
     marginTop: 30,
-    alignItems: "center"
+    alignItems: "center",
   },
   buttonNav: {
     width: "45%",
@@ -208,16 +260,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderWidth: 2,
     borderColor: "#0CB7F2",
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 20,
     marginHorizontal: 5,
   },
   boxListOptions: {
     width: "100%",
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 10,
-    display: 'flex',
+    display: "flex",
   },
   boxNavbar: {
     paddingVertical: 20,
@@ -226,9 +278,9 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
   },
   boxExcluir: {
     width: 300,
@@ -237,7 +289,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 30,
     borderRadius: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   textTitleExcluir: {
     fontSize: 19,
@@ -247,10 +299,11 @@ const styles = StyleSheet.create({
   },
   nameTarefaExcluir: {
     fontSize: 20,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     color: "#fff",
     marginTop: -3,
-    fontWeight: "300"
+    fontWeight: "300",
+    textAlign: "center"
   },
   btnConfirmarExcluir: {
     width: 160,
@@ -259,8 +312,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 50,
     color: "#fff",
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 20,
   },
   btnNegarExcluir: {
@@ -271,7 +324,7 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
     borderWidth: 2,
     borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

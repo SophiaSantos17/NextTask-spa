@@ -32,7 +32,7 @@ const getPriorityColor = (priority) => {
   switch (priority) {
     case "Alta":
       return "#F20C0C";
-    case "Media":
+    case "Média":
       return "#0CB7F2";
     case "Baixa":
       return "#2EC221";

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { userLogged } from '../../services/user';
 import { useAuth } from '../../context/AuthContext';
 import { format } from 'date-fns';
-import { getAllTarefas } from '../../services/tarefas';
+import { getAllTarefas, getRecentesTarefas } from '../../services/tarefas';
 
 // Componentes criados
 import Navbar from '../../components/navbar';
@@ -32,7 +32,7 @@ export default function Home() {
   // Função de autenticação
   const { token, logout } = useAuth();
   // função para atulaizar com as tarefas mais recentes
-  const [lastUpdated, setLastUpdated] = useState(null);
+  const [tarefaRecente, setTarefaRecente] = useState([]);
 
 
   // Verifica se o token está presente, se não, redireciona para a tela de login
@@ -56,13 +56,20 @@ export default function Home() {
     try {
       const tarefaResponse = await getAllTarefas(token);
       setTarefas(tarefaResponse.data);
-      setLastUpdated(new Date()); // Atualiza o timestamp da última atualização
-
     } catch (error) {
       console.log(error);
     } finally {
       // Indica que o carregamento dos dados foi concluído
       setIsLoading(false);
+    }
+  }
+
+  async function getRecentes(){
+    try{
+      const recentesResponse = await getRecentesTarefas(token);
+      setTarefaRecente(recentesResponse.data);
+    }catch(error){
+      console.log(error);
     }
   }
 
@@ -72,12 +79,20 @@ export default function Home() {
     navigate.navigate('Signin');
   }
 
+
   // Efeito que é executado ao montar o componente
   useEffect(() => {
+    const pollingInterval = setInterval(() => {
+      getAllTasks();
+      getRecentes();
+    }, 5000);
+
     validateToken();
     getUserLogged();
-    getAllTasks();
-  }, [lastUpdated]);
+    
+
+    return () => clearInterval(pollingInterval);
+  }, []);
 
   // Se os dados estiverem sendo carregados, exibe um indicador de atividade
   if (isLoading) {
@@ -87,11 +102,6 @@ export default function Home() {
       </View>
     );
   }
-
-  // Ordenar as tarefas com base em createdAt
-  const recentTarefas = tarefas
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    .slice(0, 5);
 
 
   // Renderiza a tela principal
@@ -115,26 +125,25 @@ export default function Home() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
       >
-        {recentTarefas.length ? (
+       
+        {tarefaRecente.length ? (
           <View style={styles.boxRecents}>
-            {recentTarefas.slice(0, 5).map((tarefa, index) => (
-              tarefa.status === 0 ? (
-                <CardRecent
-                  key={index}
-                  priority={tarefa.prioridade}
-                  date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
-                  text={tarefa.titulo}
-                  onPress={() => navigate.navigate("InfoTarefa", { tarefaId: tarefa._id })}
-                />
-              ) : null
+            {tarefaRecente.map((tarefa, index) => (
+              <CardRecent
+                key={index} 
+                priority={tarefa.prioridade}
+                date={format(new Date(tarefa.data), 'dd/MM/yyyy')}
+                text={tarefa.titulo}
+                onPress={() => navigate.navigate("InfoTarefa", { tarefaId: tarefa._id })}
+              />
             ))}
-        </View>
+          </View>
         ) : (
           <View style={styles.boxRecents}>
             <Text style={styles.info}>Sem tarefa recente</Text>
-
           </View>
-        )}
+        )}  
+        
       </ScrollView>
 
       {/* Seção de tarefas To Do */}
@@ -151,11 +160,11 @@ export default function Home() {
                   text={tarefa.titulo}
                   onPress={() => navigate.navigate("InfoTarefa", { tarefaId: tarefa._id })}
                 />
-              ) : null
+              ) :  null
             ))}
           </View>
         ) : (
-          <Text style={styles.info}>Sem tarefa recente</Text>
+          <Text style={styles.info}>Sem tarefas</Text>
         )}
       </ScrollView>
 
@@ -176,7 +185,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   header: {
-    height: '15%',
+    height: '18%',
     width: '100%',
     backgroundColor: "pink",
     display: 'flex',
@@ -190,7 +199,7 @@ const styles = StyleSheet.create({
   welcome: {
     fontSize: 30,
     fontWeight: 'bold',
-    paddingTop: 20,
+    paddingTop: 50,
   },
   date: {
     fontSize: 20,
@@ -218,7 +227,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    height: 160,
+    height: 180,
     width: '90%',
     // backgroundColor: "blue"
   },

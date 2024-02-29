@@ -22,7 +22,7 @@ export default function Signup() {
 
   const navigate = useNavigation(); // cria uma variavel que recebe a função useNavigate que é usada para navejar entre telas
 
-  const { control, handleSubmit, formState: {errors} } = useForm({
+  const { control, handleSubmit, formState: {errors}, reset  } = useForm({
     resolver: zodResolver(signupSchema), // chama  a validação do schema definido no zod
     shouldUnregister: true, // Impede a atualização automática durante a digitação
   }); 
@@ -31,10 +31,9 @@ export default function Signup() {
   
   async function onSubmit(data){ // função que será chamada ao clicar no botão de enviar os dados
     try{
-      
       await signup(data);
+      reset();
       navigate.navigate("Signin"); // redireciona para a tela Home após o cadastro
-      
     }catch(error){
       setApiErrors("Erro ao fazer cadastro. Por favor, tente novamente.");
     }
@@ -185,7 +184,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 50,
     display: 'flex',
     flexDirection: 'column',
-    // justifyContent: 'spa',
     paddingVertical: 20,
     alignItems: 'center',
   },
@@ -213,7 +211,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'center',
     alignItems:'center',
-    height: 20,
+    height: 30,
   },
   text: {
     fontSize: 20,
