@@ -1,70 +1,98 @@
-# NextTask To Do
+# NextTask - Aplicativo de Gerenciamento de Tarefas
 
-Este é o código-fonte do aplicativo de tarefas, desenvolvido em React Native. O aplicativo é uma ferramenta para planejamento pessoal, permitindo a criação, visualização, edição e exclusão de tarefas. Além disso, oferece autenticação de usuários para garantir a segurança das informações.
+## Sobre o Projeto
 
-## Estrutura de Diretórios
+O NextTask é um aplicativo de gerenciamento de tarefas desenvolvido com React Native e Expo, fornecendo uma experiência eficiente para organizar suas atividades diárias.
 
-- **components:** Contém todos os componentes reutilizáveis do aplicativo, como botões, cartões e entradas de dados.
-- **context:** Define o contexto de autenticação utilizado para gerenciar o estado de login do usuário.
-- **pages:** Cada página do aplicativo é representada por um arquivo nesta pasta. As páginas incluem funcionalidades como login, registro, visualização de tarefas, informações detalhadas da tarefa, etc.
-- **services:** Contém os serviços de comunicação com a API, responsáveis por executar operações relacionadas a tarefas e usuários.
-- **assets:** Armazena imagens e outros recursos utilizados no aplicativo.
+### Funcionalidades Principais:
 
-## Componentes Principais
+- **Autenticação de Usuário:** Login seguro e registro de novos usuários.
+- **Adição e Edição de Tarefas:** Crie novas tarefas e edite informações existentes.
+- **Visualização e Edição de Listas:** Veja suas tarefas, marque como concluídas ou exclua.
+- **Priorização de Tarefas:** Atribua prioridades para organizar seu fluxo de trabalho.
+- **Detalhes das Tarefas:** Obtenha informações detalhadas sobre cada tarefa.
 
-- **Navbar:** Navegação inferior que permite alternar entre diferentes seções do aplicativo.
-- **Header:** Cabeçalho exibido em várias páginas com um título.
-- **Button:** Botão reutilizável com a capacidade de ajustar largura, altura e manipuladores de eventos.
-- **InputTarefa, InputDate, InputPriority, OptionType:** Entradas de dados especializadas para diferentes tipos de informações.
-- **CardList:** Cartão exibido para cada tarefa na página principal, mostrando título, prioridade e data.
-- **CardRecentes:** Cartão exibido para cada tarefa recente na página principal, mostrando informações resumidas.
-- **CardOptionList:** Cartão exibido ao lado de cada tarefa na página principal, fornecendo opções de edição, exclusão e conclusão.
+## Como Iniciar
 
-## Fluxo de Navegação
+Siga estas etapas para iniciar o aplicativo NextTask em seu ambiente local:
 
-A navegação no aplicativo é gerenciada pelo React Navigation. As principais rotas incluem:
+### Pré-requisitos
 
-- **SplashScreen:** Tela de introdução exibida ao iniciar o aplicativo.
-- **Start:** Tela inicial com opções para login, registro ou explorar o aplicativo.
-- **Signin e Signup:** Telas de autenticação para entrar ou criar uma conta.
-- **Home:** Página principal do aplicativo, exibindo tarefas recentes e por fazer.
-- **NovaTarefa e EditarTarefa:** Telas para criar uma nova tarefa ou editar uma existente.
-- **InfoTarefa:** Tela detalhada exibindo informações completas de uma tarefa específica.
+- [Node.js](https://nodejs.org/)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
+- [Git](https://git-scm.com/)
 
-## Integração com a API
+### Passos
 
-O aplicativo se comunica com uma API RESTful para realizar operações relacionadas a tarefas e usuários. O serviço de autenticação é utilizado para signup e signin, enquanto o serviço de tarefas realiza operações CRUD (Create, Read, Update, Delete) nas tarefas.
+1. **Clone o Repositório:**
 
-Certifique-se de configurar corretamente a URL base da API no arquivo de serviços para garantir uma comunicação adequada.
+    ```bash
+    git clone https://github.com/SophiaSantos17/NextTask-spa.git
+    ```
 
-## Instruções de Execução
+2. **Navegue para o Diretório do Projeto:**
 
-1. **Instalação de Dependências:**
-   Certifique-se de ter todas as dependências instaladas. Execute o seguinte comando na raiz do projeto:
-   ```
-   npm install
-   ```
+    ```bash
+    cd NextTask-spa
+    ```
 
-2. **Configuração do Ambiente:**
-   No arquivo `tarefa.js` e `user.js` dentro da pasta `services`, ajuste a constante `BASE_URL` para a URL correta da sua API.
+3. **Instale as Dependências:**
 
-3. **Execução do Aplicativo:**
-   Use o seguinte comando para iniciar o aplicativo:
-   ```
-   npx react-native run-android
-   ```
-   Certifique-se de ter um emulador Android em execução ou um dispositivo Android conectado via USB.
+    ```bash
+    npm install
+    ```
 
-4. **Testes:**
-   Os testes podem ser executados com o comando:
-   ```
-   npm test
-   ```
+4. **Inicie o Aplicativo:**
 
-## Observações
+    ```bash
+    npm start
+    ```
 
-- Este aplicativo foi desenvolvido e testado principalmente no ambiente Android. Algumas adaptações podem ser necessárias para garantir um funcionamento adequado no iOS.
-- Certifique-se de configurar corretamente as permissões e URLs da API para garantir uma comunicação eficaz.
+5. **Escaneie o Código QR:**
+   - Utilize o aplicativo Expo Go no seu dispositivo móvel.
+   - Escaneie o código QR gerado no terminal.
+
+## Configuração da API
+
+Para conectar o aplicativo à API NextTask, siga as instruções abaixo:
+
+1. **Clone o Repositório da API:**
+
+    ```bash
+    git clone https://github.com/SophiaSantos17/NextTask-api.git
+    ```
+
+2. **Navegue para o Diretório da API:**
+
+    ```bash
+    cd NextTask-api
+    ```
+
+3. **Instale as Dependências:**
+
+    ```bash
+    npm install
+    ```
+
+4. **Inicie a API:**
+
+    ```bash
+    npm start
+    ```
+
+5. **Configure o Endereço IP:**
+   - Execute `ipconfig` no CMD e obtenha seu endereço IP.
+   - Substitua `BASE_URL` nos arquivos de serviço do aplicativo com o IP obtido.
+
+## Contribuindo
+
+- Caso queira contribuir para o projeto, abra uma issue ou envie um pull request.
+- Qualquer contribuição é bem-vinda!
+
+## Licença
+
+Este projeto é distribuído sob a [Licença MIT](LICENSE).
 
 ---
 
+Esperamos que o NextTask facilite sua organização diária de tarefas. Aproveite! 😊

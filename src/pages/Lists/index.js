@@ -47,14 +47,6 @@ export default function Listas() {
     }
   }
 
-  async function getTaskById(taskId) {
-    try {
-      await getbyIdTarefas(taskId);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   // Função para lidar com a exclusão de uma tarefa
   const handleDelete = (taskId, taskTitle) => {
     setMostrarExclusao(true);
