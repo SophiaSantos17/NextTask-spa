@@ -85,73 +85,51 @@ Para conectar o aplicativo à API NextTask, siga as instruções abaixo:
    - Substitua `BASE_URL` nos arquivos de serviço do aplicativo com o IP obtido.
 
 
+<style>
+    .project-block {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .project-block-item {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .project-block-item img {
+        width: 300px;
+        height: 400px;
+        object-fit: cover;
+    }
+
+    .project-block-item p {
+        margin-top: 10px;
+    }
+</style>
+
 ## Projeto
-<!-- Bloco 1 -->
-<div style="display: flex; flex-wrap: wrap; justify-content: center;">
-    <div style="flex: 1; padding: 10px;">
-        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/f7a0eab6-c884-4c3b-83e8-b3f165861e37" alt="Tela Inicial" style="max-width: 100%;">
-        <p style="text-align: center;">Tela Inicial</p>
-    </div>
-    <div style="flex: 1; padding: 10px;">
-        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/56f0699d-6df0-4384-8836-9399269be13a" alt="Login" style="max-width: 100%;">
-        <p style="text-align: center;">Tela de Login</p>
-    </div>
-    <div style="flex: 1; padding: 10px;">
-        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/56a4b7e8-717c-4d86-8b20-b3ca8bc7cb58" alt="Cadastro" style="max-width: 100%;">
-        <p style="text-align: center;">Tela de Cadastro</p>
-    </div>
+<center>
+<div class="project-block">
+        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/f7a0eab6-c884-4c3b-83e8-b3f165861e37" alt="Tela Inicial" width="300" height="400">
+        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/56f0699d-6df0-4384-8836-9399269be13a" alt="Login" width="300" height="400">
+        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/56a4b7e8-717c-4d86-8b20-b3ca8bc7cb58" alt="Cadastro" width="300" height="400">
 </div>
-<ul>
-    <li>Na tela inicial, é a página que será carregada ao entrar no aplicativo.</li>
-    <li>Na tela de login, já com as restrições dos inputs. Ele só aparece se o usuário tenta logar sem as restrições.</li>
-    <li>Na tela de cadastro, caso o usuário não tenha login, ele poderá fazer o cadastro. Quando feito, é direcionado para a tela de login.</li>
-</ul>
-<hr> <br>
 
-<!-- Bloco 2 -->
-<div style="display: flex; flex-wrap: wrap; justify-content: center;">
-    <div style="flex: 1; padding: 10px;">
-        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/2b7eb678-592f-43fe-8dec-99499743ee59" alt="Home" style="max-width: 100%;">
-        <p style="text-align: center;">Tela Home</p>
-    </div>
-    <div style="flex: 1; padding: 10px;">
-        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/cc9ebe27-54ab-44a5-b46c-2310735fcf4a" alt="Info Tarefa" style="max-width: 100%;">
-        <p style="text-align: center;">Tela de Informações da Tarefa</p>
-    </div>
-    <div style="flex: 1; padding: 10px;">
-        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/6a3febfa-02ce-4f57-8ae0-2f526f7fe3e5" alt="Add Tarefa" style="max-width: 100%;">
-        <p style="text-align: center;">Tela de Adicionar Tarefa</p>
-    </div>
+<div class="project-block">
+        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/2b7eb678-592f-43fe-8dec-99499743ee59" alt="Home" width="300" height="400">
+        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/cc9ebe27-54ab-44a5-b46c-2310735fcf4a" alt="Info Tarefa" width="300" height="400">
+        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/6a3febfa-02ce-4f57-8ae0-2f526f7fe3e5" alt="Add Tarefa"  width="300" height="400">
 </div>
-<ul>
-    <li>Na home, assim que logado, o usuário poderá ver suas tarefas (caso não tenha nenhuma, aparecerá uma mensagem informando).</li>
-    <li>Na tela de Informações da tarefa, o usuário pode ver com mais detalhes as informações da tarefa selecionada.</li>
-    <li>Na tela de adicionar, o usuário preenche as informações e cadastra uma nova tarefa.</li>
-</ul>
-<hr> <br>
 
-<!-- Bloco 3 -->
-<div style="display: flex; flex-wrap: wrap; justify-content: center;">
-    <div style="flex: 1; padding: 10px;">
-        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/629c426a-33ae-4ea5-b1c9-0f8bd0e84fc0" alt="Config Tarefa" style="max-width: 100%;">
-        <p style="text-align: center;">Tela de Configuração de Tarefas</p>
-    </div>
-    <div style="flex: 1; padding: 10px;">
-        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/f435a5bb-9d14-4380-a1b3-a418251bafd8" alt="Excluir Tarefa" style="max-width: 100%;">
-        <p style="text-align: center;">Tela de Modal para Excluir Tarefa</p>
-    </div>
-    <div style="flex: 1; padding: 10px;">
-        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/37bc3db0-f32b-42f8-a71a-00b8246beca6" alt="Tarefas Feitas" style="max-width: 100%;">
-        <p style="text-align: center;">Tela de Tarefas Feitas</p>
-    </div>
+<div class="project-block">
+        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/629c426a-33ae-4ea5-b1c9-0f8bd0e84fc0" alt="Config Tarefa" width="300" height="400">
+        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/f435a5bb-9d14-4380-a1b3-a418251bafd8" alt="Excluir Tarefa" width="300" height="400">
+        <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/37bc3db0-f32b-42f8-a71a-00b8246beca6" alt="Tarefas Feitas" width="300" height="400">
 </div>
-<ul>
-    <li>Na tela de Configurações de Tarefas, o usuário pode marcar a tarefa como feita, editá-la ou excluí-la (se ele deseja editá-la, a página é igual à de criar tarefa, mas com as informações preenchidas).</li>
-    <li>No Modal de Excluir, ao clicar em excluir em uma tarefa, aparece o modal e o usuário confirma se deseja ou não excluir a tarefa.</li>
-    <li>Na tela de Tarefas feitas, aparecem todas as tarefas marcadas como feitas.</li>
-</ul>
+</center>
 
-<br>
 
 ## Contribuindo
 
