@@ -85,34 +85,10 @@ Para conectar o aplicativo à API NextTask, siga as instruções abaixo:
    - Substitua `BASE_URL` nos arquivos de serviço do aplicativo com o IP obtido.
 
 
-<style>
-    .project-block {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .project-block-item {
-        flex: 1;
-        padding: 10px;
-        text-align: center;
-    }
-
-    .project-block-item img {
-        width: 300px;
-        height: 400px;
-        object-fit: cover;
-    }
-
-    .project-block-item p {
-        margin-top: 10px;
-    }
-</style>
-
 ## Projeto
 
 <center>
-<h3>Aqui temos: Tela Inicial, Tela de Login e Cadastro</h3>
+<h3>Tela Inicial, Tela de Login e Cadastro</h3>
 <div class="project-block">
         <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/f7a0eab6-c884-4c3b-83e8-b3f165861e37" alt="Tela Inicial" width="200" height="300">
         <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/56f0699d-6df0-4384-8836-9399269be13a" alt="Login" width="200" height="300">
@@ -126,7 +102,7 @@ Para conectar o aplicativo à API NextTask, siga as instruções abaixo:
 </ul>
 <hr> 
 
-<h3>Aqui temos: Home, Tela de Informação da Tarefa e Tela de Adicionar Tarefa</h3>
+<h3>Home, Tela de Informação da Tarefa e Tela de Adicionar Tarefa</h3>
 
 <div class="project-block">
         <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/2b7eb678-592f-43fe-8dec-99499743ee59" alt="Home" width="200" height="300">
@@ -141,7 +117,7 @@ Para conectar o aplicativo à API NextTask, siga as instruções abaixo:
 </ul>
 <hr> 
 
-<h3>Aqui temos: Tela de Confirgurações de Tarefas, Modal de Excluir Tarefa e Tela de Tarefas Feitas</h3>
+<h3>Tela de Confirgurações de Tarefas, Modal de Excluir Tarefa e Tela de Tarefas Feitas</h3>
 
 <div class="project-block">
         <img src="https://github.com/SophiaSantos17/NextTask-spa/assets/125769375/629c426a-33ae-4ea5-b1c9-0f8bd0e84fc0" alt="Config Tarefa" width="200" height="300">
